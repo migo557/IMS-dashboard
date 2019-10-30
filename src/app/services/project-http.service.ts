@@ -1,22 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BaseHttpService} from "./base-http.service";
 import {Project, ProjectInterface} from "../models/project";
+import {CommonHttpService} from "./common-http.service";
 
 @Injectable()
-export class ProjectHttpService extends BaseHttpService {
+export class ProjectHttpService {
 
-  constructor(private http: HttpClient) {
-    super();
-  }
+  constructor(private commonHttp: CommonHttpService) { }
 
   createProject(project: Project) {
-    return this.http.post<ProjectInterface>(this.baseUrl + '/api/project/create', project);
+    return this.commonHttp.post('/api/project/create', project);
   }
 
   getProjectList(userId: Number) {
-    return this.http.get<ProjectInterface[]>(this.baseUrl + '/api/project/getList/' + userId);
-  }
+    return this.commonHttp.get('/api/project/getList/', userId);
+}
 
   // getProjectUserPermission(projectId: Number, userId: Number) {
   //   return this.http.get<ProjectUserPermissions>(this.baseUrl + `/api/project/getPermissions/projectId=${projectId}&userId=${userId}`);
