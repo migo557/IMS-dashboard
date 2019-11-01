@@ -1,4 +1,5 @@
 @import '../@theme/styles/themes';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 @include nb-install-component() {
   ::ng-deep router-outlet + * {
