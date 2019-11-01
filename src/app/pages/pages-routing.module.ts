@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import {ProjectsComponent} from "./projects/projects.component";
 
 const routes: Routes = [{
   path: '',
@@ -14,6 +15,12 @@ const routes: Routes = [{
       path: 'dashboard',
       component: ECommerceComponent,
     },
+    {
+      path: 'projects',
+      component: ProjectsComponent,
+    },
+    // unused routs will be removed later
+    //todo: remove unused routs
     {
       path: 'iot-dashboard',
       component: DashboardComponent,
