@@ -24,6 +24,7 @@ export class ProjectsComponent implements AfterViewInit {
   constructor(
     private projectHttpService: ProjectHttpService,
     private authService: AuthService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngAfterViewInit() {
@@ -34,16 +35,28 @@ export class ProjectsComponent implements AfterViewInit {
   }
 
   getProjects() {
-    const self = this;
     this.projectHttpService.getProjectList(this.userId)
       .subscribe(
         result => {
           const projects = result.map(
             item => new Project(item.id, item.title),
           );
-          self.dataSource = new MatTableDataSource<ProjectInterface>(projects);
+          this.dataSource = new MatTableDataSource<ProjectInterface>(projects);
         },
       );
+  }
+
+  open() {
+    this.modalAddProject.open();
+    this.modalAddProject.dialogRef.result.then(result => {
+      if (result && result!='undefined' && result!={}) {
+        this.snackBar.open(`Project "${result.title}" created.`, '', {
+          duration: 5000,
+          horizontalPosition: "center",
+          verticalPosition: "top"
+        });
+      }
+    })
   }
 
 

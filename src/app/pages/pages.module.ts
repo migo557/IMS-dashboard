@@ -14,6 +14,8 @@ import {AuthService} from "../services/auth.service";
 import {ProjectHttpService} from "../services/project-http.service";
 import {HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
+import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
+
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import {MatTableModule} from "@angular/material/table";
     MiscellaneousModule,
     HttpClientModule,
     MatTableModule,
+    MatSnackBarModule,
   ],
   declarations: [
     PagesComponent,
@@ -36,6 +39,7 @@ import {MatTableModule} from "@angular/material/table";
   providers: [
     AuthService,
     ProjectHttpService,
+    MatSnackBar,
   ],
 })
 export class PagesModule {

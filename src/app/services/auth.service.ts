@@ -8,16 +8,15 @@ export class AuthService {
 
   private userSource: BehaviorSubject<User>;
   public user$: Observable<User>;
-  public user: User = new User(2);
+
   constructor(private commonHttp: CommonHttpService) {
-    this.user = new User(1);
-    console.log("success");
-    this.userSource = new BehaviorSubject<User>(this.user);
+    // this.userSource = new BehaviorSubject<User>(new User(1));
+    this.userSource = new BehaviorSubject<User>(new User(1));
     this.user$ = this.userSource.asObservable();
   }
 
   public announceUserChange(user: User) {
-    this.userSource.next(user);
+    this.userSource.next(new User(1));
   }
   //todo: Complete authentication service
 }
