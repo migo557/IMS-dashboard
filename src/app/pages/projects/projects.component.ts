@@ -27,10 +27,10 @@ export class ProjectsComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    this.getProjects();
     this.authService.user$.subscribe(r => {
       this.userId = r.id;
-    })
+    });
+    this.getProjects();
   }
 
   getProjects() {

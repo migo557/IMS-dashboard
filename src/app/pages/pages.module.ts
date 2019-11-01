@@ -13,6 +13,7 @@ import { FormAddProjectComponent } from './projects/modal-add-project/form-add-p
 import {AuthService} from "../services/auth.service";
 import {ProjectHttpService} from "../services/project-http.service";
 import {HttpClientModule} from "@angular/common/http";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {HttpClientModule} from "@angular/common/http";
     ECommerceModule,
     MiscellaneousModule,
     HttpClientModule,
+    MatTableModule,
   ],
   declarations: [
     PagesComponent,
