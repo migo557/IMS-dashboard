@@ -6,4 +6,9 @@ export class User {
   firstName?: string;
   lastName?: string;
   token?: string;
+
+  public constructor(id: number) {
+    this.id = id;
+  }
+
 }

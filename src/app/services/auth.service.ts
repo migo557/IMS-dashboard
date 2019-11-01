@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models';
+import {User} from "../models/user";
 import {CommonHttpService} from "./common-http.service";
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService {
+export class AuthService {
 
   private userSource: BehaviorSubject<User>;
   public user$: Observable<User>;
-
+  public user: User;
   constructor(private commonHttp: CommonHttpService) {
-    this.userSource = new BehaviorSubject<User>(null);
+    this.user = new User(1);
+    this.userSource = new BehaviorSubject<User>(this.user);
     this.user$ = this.userSource.asObservable();
   }
 
