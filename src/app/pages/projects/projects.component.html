@@ -31,10 +31,10 @@
 
   <div class="peer">
     <button type="button" class="btn cur-p btn-primary"
-            data-toggle="modal" data-target="#modal-add-project">
+            data-toggle="modal" data-target="#modal-add-project"(click)="open()">
       Add Project
     </button>
   </div>
 </div>
 
-<modal-add-project></modal-add-project>
+<modal-add-project (newProject)="addNewProject($event)"></modal-add-project>

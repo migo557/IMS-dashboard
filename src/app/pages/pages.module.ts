@@ -15,6 +15,8 @@ import {ProjectHttpService} from "../services/project-http.service";
 import {HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
+import {ReactiveFormsModule} from "@angular/forms";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -29,6 +31,8 @@ import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
     HttpClientModule,
     MatTableModule,
     MatSnackBarModule,
+    ReactiveFormsModule,
+    NgbModule
   ],
   declarations: [
     PagesComponent,
