@@ -17,6 +17,8 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
 
@@ -32,7 +34,9 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     MatTableModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   declarations: [
     PagesComponent,

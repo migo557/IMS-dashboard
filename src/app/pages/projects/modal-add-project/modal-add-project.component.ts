@@ -71,9 +71,11 @@ export class ModalAddProjectComponent implements OnInit {
         console.log(result);
         let project = new Project(result.id, result.title);
         this.newProject.emit(project);
-        this.closeModal(project);
+        // this.closeModal(project);
       }
     );
+    this.closeModal(project); // temporary here, while DB acess will be obtained
+
   }
 
   open() {
@@ -81,6 +83,6 @@ export class ModalAddProjectComponent implements OnInit {
   }
 
   closeModal(data = {}) {
-    this.dialogRef.close(data)
+    this.dialogRef.close(data);
   }
 }

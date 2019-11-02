@@ -46,6 +46,7 @@ export class ProjectsComponent implements AfterViewInit {
       );
   }
 
+
   open() {
     this.modalAddProject.open();
     this.modalAddProject.dialogRef.result.then(result => {
