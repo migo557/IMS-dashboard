@@ -19,6 +19,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {Ng2SmartTableModule} from "ng2-smart-table";
 
 
 
@@ -37,6 +38,7 @@ import {MatButtonModule} from "@angular/material/button";
     NgbModule,
     MatIconModule,
     MatButtonModule,
+    Ng2SmartTableModule,
   ],
   declarations: [
     PagesComponent,

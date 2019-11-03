@@ -1,45 +1,20 @@
 <div class="row">
-  <table class="table table-bordered table-hover" mat-table [dataSource]="dataSource">
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="id">
-      <tr>
-        <th mat-header-cell *matHeaderCellDef> Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </tr>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="title">
-      <tr>
-        <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </tr>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="edit">
-      <tr>
-        <th mat-header-cell *matHeaderCellDef> Edit </th>
-        <td mat-cell *matCellDef="let element">
-          <button data-id="{{element.id}}">Edit</button>
-        <button mat-button>
-          <mat-icon>edit</mat-icon>
-          Edit
-        </button>
-        </td>
-      </tr>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  <div>
+      <ng2-smart-table [settings]="settings"
+                       [source]="dataSource"
+                       (deleteConfirm)="onDeleteConfirm($event)"
+                       (createConfirm)="onCreateConfirm($event)"
+                       (editConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
+  </div>
 
   <div class="peer">
     <button type="button" class="btn cur-p btn-primary"
             data-toggle="modal" data-target="#modal-add-project"(click)="open()">
       Add Project
     </button>
+    <button mat-button>Click me!</button>
+
   </div>
 </div>
 

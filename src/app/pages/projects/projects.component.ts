@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ModalAddProjectComponent} from "./modal-add-project/modal-add-project.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Project, ProjectInterface} from "../../models/project";
 import {ProjectHttpService} from "../../services/project-http.service";
 import {AuthService} from "../../services/auth.service";
+import {LocalDataSource} from "ng2-smart-table";
 
 @Component({
   selector: 'ngx-app-projects',
@@ -15,8 +15,55 @@ import {AuthService} from "../../services/auth.service";
 export class ProjectsComponent implements AfterViewInit {
   userId : number;
 
-  displayedColumns: string[] = ["id", "title", "edit"];
-  public dataSource = new MatTableDataSource<ProjectInterface>([]); // output table
+  settings = {
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      // confirmDelete: true,
+    },
+    columns: {
+      id: {
+        title: 'ID',
+        type: 'number',
+      },
+      title: {
+        title: 'Title',
+        type: 'string',
+      },
+    },
+  };
+
+  onDeleteConfirm(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+    console.log(event);
+  }
+
+  onCreateConfirm(event): Project {
+    console.log("created", event);
+    if (window.confirm('Are you sure you want to create a project?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+    console.log("created", event);
+    return new Project(event.data.id, event.data.title);
+  }
+
+  public dataSource = new LocalDataSource();
+  // public dataSource = new MatTableDataSource<ProjectInterface>([]); // output table
 
   @ViewChild(ModalAddProjectComponent, {static: false})
   private modalAddProject: ModalAddProjectComponent;
@@ -41,7 +88,7 @@ export class ProjectsComponent implements AfterViewInit {
           const projects = result.map(
             item => new Project(item.id, item.title),
           );
-          this.dataSource = new MatTableDataSource<ProjectInterface>(projects);
+          this.dataSource = new LocalDataSource<ProjectInterface>(projects);
         },
       );
   }
@@ -58,10 +105,5 @@ export class ProjectsComponent implements AfterViewInit {
         });
       }
     })
-  }
-
-
-  public addNewProject(project: ProjectInterface) {
-    this.dataSource.data = [project, ...this.dataSource.data]
   }
 }

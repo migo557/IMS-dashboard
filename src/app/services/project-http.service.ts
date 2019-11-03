@@ -12,7 +12,6 @@ export class ProjectHttpService {
   }
 
   getProjectList(userId: Number) {
-    // return this.commonHttp.get('/api/project/getList/', userId);
     return this.commonHttp.get<ProjectInterface[]>('/api/project/getList/', userId);
   }
 }

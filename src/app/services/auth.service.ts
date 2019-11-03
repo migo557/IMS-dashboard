@@ -6,17 +6,13 @@ import {CommonHttpService} from "./common-http.service";
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private userSource: BehaviorSubject<User>;
-  public user$: Observable<User>;
+  private userSource: BehaviorSubject<User> = new BehaviorSubject<User>(new User(1));
+  public user$: Observable<User> = this.userSource.asObservable();
 
-  constructor(private commonHttp: CommonHttpService) {
-    // this.userSource = new BehaviorSubject<User>(new User(1));
-    this.userSource = new BehaviorSubject<User>(new User(1));
-    this.user$ = this.userSource.asObservable();
-  }
+  constructor() { }
 
   public announceUserChange(user: User) {
-    this.userSource.next(new User(1));
+    this.userSource.next(new User(2));
   }
   //todo: Complete authentication service
 }

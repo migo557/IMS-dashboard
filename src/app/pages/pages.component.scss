@@ -1,22 +1,8 @@
-@import '../@theme/styles/themes';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+//@import '../@theme/styles/themes';
+@import '~@angular/material/theming';
+//@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-@include nb-install-component() {
-  ::ng-deep router-outlet + * {
-    display: block;
-    animation: fade 1s;
-
-    @keyframes fade {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-  }
-}
 
 ::ng-deep snack-bar-container.custom-class {
   background: yellow;
@@ -26,4 +12,3 @@
   color: green;
 }
 
-@import '~@angular/material/theming';
