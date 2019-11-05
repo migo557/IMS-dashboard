@@ -8,6 +8,20 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { ProjectsComponent } from './projects/projects.component';
+import { ModalAddProjectComponent } from './projects/modal-add-project/modal-add-project.component';
+import { FormAddProjectComponent } from './projects/modal-add-project/form-add-project/form-add-project.component';
+import {AuthService} from "../services/auth.service";
+import {ProjectHttpService} from "../services/project-http.service";
+import {HttpClientModule} from "@angular/common/http";
+import {MatTableModule} from "@angular/material/table";
+import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
+import {ReactiveFormsModule} from "@angular/forms";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {Ng2SmartTableModule} from "ng2-smart-table";
+
+
 
 @NgModule({
   imports: [
@@ -17,10 +31,25 @@ import { ProjectsComponent } from './projects/projects.component';
     DashboardModule,
     ECommerceModule,
     MiscellaneousModule,
+    HttpClientModule,
+    MatTableModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    NgbModule,
+    MatIconModule,
+    MatButtonModule,
+    Ng2SmartTableModule,
   ],
   declarations: [
     PagesComponent,
     ProjectsComponent,
+    ModalAddProjectComponent,
+    FormAddProjectComponent,
+  ],
+  providers: [
+    AuthService,
+    ProjectHttpService,
+    MatSnackBar,
   ],
 })
 export class PagesModule {
