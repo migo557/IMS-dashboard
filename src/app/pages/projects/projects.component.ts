@@ -28,7 +28,7 @@ export class ProjectsComponent implements AfterViewInit {
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      // confirmDelete: true,
+      confirmDelete: true,
     },
     columns: {
       id: {
@@ -51,6 +51,7 @@ export class ProjectsComponent implements AfterViewInit {
     console.log(event);
   }
 
+ // the function below is created for ngx + button
   onCreateConfirm(event): Project {
     console.log("created", event);
     if (window.confirm('Are you sure you want to create a project?')) {
@@ -62,8 +63,7 @@ export class ProjectsComponent implements AfterViewInit {
     return new Project(event.data.id, event.data.title);
   }
 
-  public dataSource = new LocalDataSource();
-  // public dataSource = new MatTableDataSource<ProjectInterface>([]); // output table
+  public dataSource: LocalDataSource;
 
   @ViewChild(ModalAddProjectComponent, {static: false})
   private modalAddProject: ModalAddProjectComponent;
@@ -88,7 +88,7 @@ export class ProjectsComponent implements AfterViewInit {
           const projects = result.map(
             item => new Project(item.id, item.title),
           );
-          this.dataSource = new LocalDataSource<ProjectInterface>(projects);
+          this.dataSource = new LocalDataSource(projects);
         },
       );
   }
@@ -97,7 +97,7 @@ export class ProjectsComponent implements AfterViewInit {
   open() {
     this.modalAddProject.open();
     this.modalAddProject.dialogRef.result.then(result => {
-      if (result && result!='undefined' && result!={}) {
+      if (result) {
         this.snackBar.open(`Project "${result.title}" created.`, '', {
           duration: 5000,
           horizontalPosition: "center",
@@ -105,5 +105,9 @@ export class ProjectsComponent implements AfterViewInit {
         });
       }
     })
+  }
+
+  public addNewProject(project: ProjectInterface) {
+    this.dataSource.add(project).then(r => r);
   }
 }

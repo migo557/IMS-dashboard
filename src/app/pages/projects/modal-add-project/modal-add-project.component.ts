@@ -23,26 +23,20 @@ import {ProjectHttpService} from "../../../services/project-http.service";
   providers: [NgbModal, NgbModalConfig]
 })
 export class ModalAddProjectComponent implements OnInit {
-  // public addProjectForm: FormGroup;
 
-  // public projectForm = new FormGroup({
-  //   title: new FormControl('1233'),
-  // });
   projectTitle: string;
   public dialogRef: NgbModalRef;
 
   receiveTitle($event) {
     this.projectTitle = $event;
-    console.log("Title caught in parent: ", $event);
   }
 
-  // @ViewChildren(FormAddProjec    tComponent) child : QueryList<FormAddProjectComponent>;
   @ViewChild(FormAddProjectComponent, {static: true}) child;
 
 
   @ViewChild("modalAddProject", {static: false})
   modalAddProject: ElementRef;
-  x
+
 
   @Output() public newProject: EventEmitter<ProjectInterface> = new EventEmitter<ProjectInterface>();
 
@@ -55,34 +49,25 @@ export class ModalAddProjectComponent implements OnInit {
     config.keyboard = false;
   }
 
-  ngOnInit() {
-    console.log("On view init MODAL:");
-  }
+  ngOnInit() { }
 
 
   submitCreateProjectForm() {
-    const self = this;
-    console.log("Create Form submitted !!!");
-
-    // console.log(this.formAddProject);
     const project: Project = new Project(null, this.projectTitle, null);
     this.projectHttpService.createProject(project).subscribe(
       result => {
-        console.log(result);
         let project = new Project(result.id, result.title);
         this.newProject.emit(project);
-        // this.closeModal(project);
+        this.closeModal(project);
       }
     );
-    this.closeModal(project); // temporary here, while DB acess will be obtained
-
   }
 
   open() {
     this.dialogRef = this.modalService.open(this.modalAddProject);
   }
 
-  closeModal(data = {}) {
+  closeModal(data = null) {
     this.dialogRef.close(data);
   }
 }

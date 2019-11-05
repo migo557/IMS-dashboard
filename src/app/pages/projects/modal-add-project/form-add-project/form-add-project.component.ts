@@ -16,18 +16,9 @@ export class FormAddProjectComponent implements OnInit {
   SendTitle() {
     this.titleEvent.emit(this.createProjectForm.value.title);
     this.title = this.createProjectForm.value.title;
-    console.log(this.title);
-    console.log(this.createProjectForm.value.title);
-    console.log("Title sent from child");
   }
 
-  constructor(private formBuilder: FormBuilder) {
-
-
-    console.log("===================================");
-    console.log("===================================");
-    console.log("===================================");
-  }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.createProjectForm = this.formBuilder.group({
