@@ -24,6 +24,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { ModalAddActivityComponent } from './activities/modal-add-activity/modal-add-activity.component';
 import { ModalSelectProjectComponent } from './activities/modal-select-project/modal-select-project.component';
 import {ActivityService} from "../services/activity.service";
+import {NgxSmartModalModule, NgxSmartModalService} from "ngx-smart-modal";
 
 
 
@@ -43,6 +44,7 @@ import {ActivityService} from "../services/activity.service";
     MatIconModule,
     MatButtonModule,
     Ng2SmartTableModule,
+    NgxSmartModalModule.forRoot(),
   ],
   declarations: [
     PagesComponent,
@@ -58,6 +60,7 @@ import {ActivityService} from "../services/activity.service";
     ProjectService,
     ActivityService,
     MatSnackBar,
+    NgxSmartModalService,
   ],
 })
 export class PagesModule {

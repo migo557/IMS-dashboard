@@ -1,1 +1,5 @@
-<p>modal-add-activity works!</p>
+<ngx-smart-modal #modalAddActivity [identifier]="'modalAddActivity'">
+  <h1>Title 1</h1>
+  <p>Hello</p>
+  <button (click)="modalAddActivity.close()">Close</button>
+</ngx-smart-modal>

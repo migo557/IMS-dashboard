@@ -1,0 +1,23 @@
+.confirmation-modal {
+  background-color: black !important;
+  border: 1px solid grey;
+
+  .modal-body {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-top: 1px solid transparent;
+    border-bottom-right-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
+    top: 60px;
+    position: relative;
+  }
+}

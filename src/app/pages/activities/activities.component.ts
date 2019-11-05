@@ -1,9 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Activity, ActivityInterface} from "../../models/activity";
 import {ActivityService} from "../../services/activity.service";
 import {ActivityFilter} from "../../models/activity-filter";
 import {LocalDataSource} from "ng2-smart-table";
+import { NgxSmartModalService } from 'ngx-smart-modal';
+
 
 @Component({
   selector: 'activities',
@@ -12,7 +14,7 @@ import {LocalDataSource} from "ng2-smart-table";
 })
 
 
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements AfterViewInit {
 
   public dataSource: LocalDataSource;
   private userId: number;
@@ -21,14 +23,24 @@ export class ActivitiesComponent implements OnInit {
   constructor(
     protected  activityHttpService: ActivityService,
     protected  authService: AuthService,
+    protected ngxSmartModalService: NgxSmartModalService,
   ) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.authService.user$.subscribe(r => {
       this.userId = r.id;
     });
     this.getActivities();
+
+    const pen: Object = {
+      prop1: 'test',
+      prop2: true,
+      prop3: [{ a: 'a', b: 'b' }, { c: 'c', d: 'd' }],
+      prop4: 327652175423
+    };
+    this.ngxSmartModalService.setModalData(pen, 'modalAddActivity');
   }
+
 
 
   getActivities(activityFilter: ActivityFilter=null){
@@ -43,8 +55,12 @@ export class ActivitiesComponent implements OnInit {
     this.activityHttpService.getActivityList(activityFilter)
       .subscribe(
         result => {
-          this.dataSource = new LocalDataSource<ActivityInterface>(result);
-        }
+          const activities = result.map(
+            item => new Activity(item.id, item.projectId, item.userId,
+              item.description, item.hours, item.timeStart, item.timeEnd),
+            );
+          this.dataSource = new LocalDataSource(activities);
+          },
       );
   }
 

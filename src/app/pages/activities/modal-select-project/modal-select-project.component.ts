@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'ngx-modal-select-project',
+  selector: 'modal-select-project',
   templateUrl: './modal-select-project.component.html',
   styleUrls: ['./modal-select-project.component.scss']
 })
