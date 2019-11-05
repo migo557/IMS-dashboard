@@ -14,7 +14,7 @@ import {FormAddProjectComponent} from "./form-add-project/form-add-project.compo
 import {NgbModal, NgbModalConfig, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Project, ProjectInterface} from "../../../models/project";
-import {ProjectHttpService} from "../../../services/project-http.service";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'modal-add-project',
@@ -41,7 +41,7 @@ export class ModalAddProjectComponent implements OnInit {
   @Output() public newProject: EventEmitter<ProjectInterface> = new EventEmitter<ProjectInterface>();
 
   constructor(
-    private projectHttpService: ProjectHttpService,
+    private projectHttpService: ProjectService,
     private config: NgbModalConfig,
     public modalService: NgbModal
   ) {

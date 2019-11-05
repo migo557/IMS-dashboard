@@ -4,7 +4,7 @@ import {Activity, ActivityInterface} from "../models/activity";
 import {ActivityFilter} from "../models/activity-filter";
 
 @Injectable()
-export class ActivityHttpService {
+export class ActivityService {
 
   constructor(private commonHttp: CommonHttpService) { }
 

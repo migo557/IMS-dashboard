@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {ModalAddProjectComponent} from "./modal-add-project/modal-add-project.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Project, ProjectInterface} from "../../models/project";
-import {ProjectHttpService} from "../../services/project-http.service";
+import {ProjectService} from "../../services/project.service";
 import {AuthService} from "../../services/auth.service";
 import {LocalDataSource} from "ng2-smart-table";
 
@@ -66,7 +66,7 @@ export class ProjectsComponent implements AfterViewInit {
   private modalAddProject: ModalAddProjectComponent;
 
   constructor(
-    private projectHttpService: ProjectHttpService,
+    private projectHttpService: ProjectService,
     private authService: AuthService,
     private snackBar: MatSnackBar
   ) { }

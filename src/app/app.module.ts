@@ -20,10 +20,12 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { ActivitiesComponent } from './app/pages/activities/activities.component';
+import {Ng2SmartTableModule} from "ng2-smart-table";
 
 @NgModule({
-  declarations: [AppComponent, ActivitiesComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -42,6 +44,7 @@ import { ActivitiesComponent } from './app/pages/activities/activities.component
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
+    Ng2SmartTableModule,
   ],
   bootstrap: [AppComponent],
 })

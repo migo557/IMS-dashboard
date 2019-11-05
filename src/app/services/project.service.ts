@@ -3,7 +3,7 @@ import {Project, ProjectInterface} from "../models/project";
 import {CommonHttpService} from "./common-http.service";
 
 @Injectable()
-export class ProjectHttpService {
+export class ProjectService {
 
   constructor(private commonHttp: CommonHttpService) { }
 
