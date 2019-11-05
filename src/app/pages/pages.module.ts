@@ -20,6 +20,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {Ng2SmartTableModule} from "ng2-smart-table";
+import { ActivitiesComponent } from './activities/activities.component';
 
 
 
@@ -45,6 +46,7 @@ import {Ng2SmartTableModule} from "ng2-smart-table";
     ProjectsComponent,
     ModalAddProjectComponent,
     FormAddProjectComponent,
+    ActivitiesComponent,
   ],
   providers: [
     AuthService,

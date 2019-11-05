@@ -20,9 +20,10 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { ActivitiesComponent } from './app/pages/activities/activities.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ActivitiesComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
