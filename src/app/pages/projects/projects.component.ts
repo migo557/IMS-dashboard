@@ -48,18 +48,15 @@ export class ProjectsComponent implements AfterViewInit {
     } else {
       event.confirm.reject();
     }
-    console.log(event);
   }
 
  // the function below is created for ngx + button
   onCreateConfirm(event): Project {
-    console.log("created", event);
     if (window.confirm('Are you sure you want to create a project?')) {
       event.confirm.resolve();
     } else {
       event.confirm.reject();
     }
-    console.log("created", event);
     return new Project(event.data.id, event.data.title);
   }
 
