@@ -69,7 +69,7 @@ export class ActivitiesComponent implements AfterViewInit {
     this.modalAddActivity.open();
     this.modalAddActivity.dialogRef.result.then(result => {
       if (result) {
-        this.snackBar.open(`Project "${result.title}" created.`, '', {
+        this.snackBar.open(`Activity for project "${result.projectName}" created.`, '', {
           duration: 5000,
           horizontalPosition: "center",
           verticalPosition: "top"

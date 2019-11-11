@@ -17,22 +17,23 @@
             <form [formGroup]="activityForm">
 
               <!--Project name-->
-              <label for="projectNamesSelect">Project</label>
-              <select formControlName="projectName" id="projectNamesSelect" class="description">
-                <option *ngFor="let project of projectList" [value]="project.id">
-                  {{project.title}}
-                </option>
-              </select>
+              <div class="offset-1">
+                <label for="projectNamesSelect" class="col-sm-3 offset-1">Project  </label>
+                <select formControlName="projectName" id="projectNamesSelect" class="description">
+                  <option class="description" *ngFor="let project of projectList" [value]="[project.id, project.title]">
+                    {{project.title}}
+                  </option>
+                </select>
+              </div>
 
               <div>
-                <label class="basic-container">Description(optional)</label>
+                <label class="basic-container col-sm-3 offset-md-1">Description  </label>
                 <input formControlName="description" id="description" class="description" type="text">
               </div>
 
               <!--Hours selector-->
               <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 offset-md-1">
                   <br>
                   <br>
                   <p>Hours:</p>
@@ -46,52 +47,45 @@
 
               <!--Start time selector-->
               <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 offset-1">
                   <br>
                   <br>
-                  <p>Start time:</p>
+                  <p>Worked from:</p>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <ngb-timepicker formControlName="startTime"></ngb-timepicker>
                 </div>
-                <hr>
-              </div>
 
-
-              <!--End time selector-->
-              <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                   <br>
                   <br>
-                  <p>End time:</p>
+                  <p>to</p>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <ngb-timepicker formControlName="endTime"></ngb-timepicker>
                 </div>
+                <br>
                 <hr>
               </div>
-            </form>
 
-<!--            Date selection-->
-<!--            <div class="my-calendar">-->
-<!--              <nb-card>-->
-<!--                <nb-card-header>Date:</nb-card-header>-->
-<!--                <nb-card-body>-->
-<!--                  <input nbInput-->
-<!--                         placeholder="Form Picker"-->
-<!--                         [nbDatepicker]="formpicker">-->
-<!--                  <nb-datepicker #formpicker></nb-datepicker>-->
-<!--                </nb-card-body>-->
-<!--              </nb-card>-->
-<!--            </div>-->
-            <div class="row">
-<!--              <div class="my-calendar">-->
-              <div class="col-sm-1"></div>
-                <div class="col-sm-3">
+
+              <!--            Date selection-->
+              <!--            <div class="my-calendar">-->
+              <!--              <nb-card>-->
+              <!--                <nb-card-header>Date:</nb-card-header>-->
+              <!--                <nb-card-body>-->
+              <!--                  <input nbInput-->
+              <!--                         placeholder="Form Picker"-->
+              <!--                         [nbDatepicker]="formpicker">-->
+              <!--                  <nb-datepicker #formpicker></nb-datepicker>-->
+              <!--                </nb-card-body>-->
+              <!--              </nb-card>-->
+              <!--            </div>-->
+              <div class="row">
+                <!--              <div class="my-calendar">-->
+                <div class="col-sm-3 offset-1">
                   <p>Date:</p>
                 </div>
                 <div class="col-sm-6">
@@ -101,21 +95,22 @@
                          [nbDatepicker]="formpicker">
                   <nb-datepicker #formpicker></nb-datepicker>
                 </div>
-<!--              </div>-->
-            </div>
-            <br>
+                <!--              </div>-->
+              </div>
+              <br>
+            </form>
           </div>
-
         </div>
       </div>
+
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
-        (click)="closeModal()">Cancel</button>
+                (click)="closeModal()">Cancel</button>
         <!--        <button class="btn btn-outline-primary" (click)="tabsetAddProject.select('tab-selectbyid2')">Go To Next</button>-->
         <button type="submit" class="btn btn-success"
                 (click)="submitCreateActivityForm();">Submit</button>
-<!--        data-dismiss="modal" [disabled]="!activityForm.valid"-->
+        <!--        data-dismiss="modal" [disabled]="!activityForm.valid"-->
 
       </div>
     </div>
