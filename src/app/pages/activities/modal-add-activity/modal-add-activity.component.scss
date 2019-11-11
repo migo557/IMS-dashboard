@@ -21,3 +21,42 @@
     position: relative;
   }
 }
+
+.description {
+  //width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+::ng-deep .cdk-overlay-container{
+  z-index: 1200 !important;
+}
+.nb-overlay-end-top{
+  z-index: 3000 !important;
+}
+.cdk-overlay-pane{
+  z-index: 3000;
+}
+.my-calendar {
+  z-index: 4000 !important;
+}
+.nb-calendar {
+  z-index: 4000 !important;
+}
+
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card-body {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 100%;
+    }
+  }
+}

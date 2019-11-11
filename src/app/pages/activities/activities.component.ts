@@ -5,6 +5,9 @@ import {ActivityService} from "../../services/activity.service";
 import {ActivityFilter} from "../../models/activity-filter";
 import {LocalDataSource} from "ng2-smart-table";
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import {ProjectInterface} from "../../models/project";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity.component";
 
 
 @Component({
@@ -19,11 +22,16 @@ export class ActivitiesComponent implements AfterViewInit {
   public dataSource: LocalDataSource;
   private userId: number;
 
+  @ViewChild(ModalAddActivityComponent, {static: false})
+  private modalAddActivity: ModalAddActivityComponent;
+
 
   constructor(
     protected  activityHttpService: ActivityService,
     protected  authService: AuthService,
     protected ngxSmartModalService: NgxSmartModalService,
+    private snackBar: MatSnackBar
+
   ) { }
 
   ngAfterViewInit() {
@@ -32,13 +40,6 @@ export class ActivitiesComponent implements AfterViewInit {
     });
     this.getActivities();
 
-    const pen: Object = {
-      prop1: 'test',
-      prop2: true,
-      prop3: [{ a: 'a', b: 'b' }, { c: 'c', d: 'd' }],
-      prop4: 327652175423
-    };
-    this.ngxSmartModalService.setModalData(pen, 'modalAddActivity');
   }
 
 
@@ -62,6 +63,23 @@ export class ActivitiesComponent implements AfterViewInit {
           this.dataSource = new LocalDataSource(activities);
           },
       );
+  }
+
+  open() {
+    this.modalAddActivity.open();
+    this.modalAddActivity.dialogRef.result.then(result => {
+      if (result) {
+        this.snackBar.open(`Project "${result.title}" created.`, '', {
+          duration: 5000,
+          horizontalPosition: "center",
+          verticalPosition: "top"
+        });
+      }
+    })
+  }
+
+  public addNewActivity(project: ProjectInterface) {
+    this.dataSource.add(project).then(r => r);
   }
 
   settings = {

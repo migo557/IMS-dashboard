@@ -13,52 +13,7 @@ import {LocalDataSource} from "ng2-smart-table";
 })
 
 export class ProjectsComponent implements AfterViewInit {
-  userId : number;
-
-  settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
-    columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
-      title: {
-        title: 'Title',
-        type: 'string',
-      },
-    },
-  };
-
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
-
- // the function below is created for ngx + button
-  onCreateConfirm(event): Project {
-    if (window.confirm('Are you sure you want to create a project?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-    return new Project(event.data.id, event.data.title);
-  }
+  userId: number;
 
   public dataSource: LocalDataSource;
 
@@ -69,7 +24,8 @@ export class ProjectsComponent implements AfterViewInit {
     private projectHttpService: ProjectService,
     private authService: AuthService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+  }
 
   ngAfterViewInit() {
     this.authService.user$.subscribe(r => {
@@ -107,4 +63,51 @@ export class ProjectsComponent implements AfterViewInit {
   public addNewProject(project: ProjectInterface) {
     this.dataSource.add(project).then(r => r);
   }
+
+
+  settings = {
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      id: {
+        title: 'ID',
+        type: 'number',
+      },
+      title: {
+        title: 'Title',
+        type: 'string',
+      },
+    },
+  };
+
+  onDeleteConfirm(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+// the function below is created for ngx + button
+  onCreateConfirm(event): Project {
+    if (window.confirm('Are you sure you want to create a project?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+    return new Project(event.data.id, event.data.title);
+  }
+
 }

@@ -1,18 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  forwardRef,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  Output,
-  EventEmitter,
-  ViewChildren, QueryList
-} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {FormAddProjectComponent} from "./form-add-project/form-add-project.component";
 import {NgbModal, NgbModalConfig, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {FormControl, FormGroup} from "@angular/forms";
 import {Project, ProjectInterface} from "../../../models/project";
 import {ProjectService} from "../../../services/project.service";
 
@@ -27,16 +15,10 @@ export class ModalAddProjectComponent implements OnInit {
   projectTitle: string;
   public dialogRef: NgbModalRef;
 
-  receiveTitle($event) {
-    this.projectTitle = $event;
-  }
-
-  @ViewChild(FormAddProjectComponent, {static: true}) child;
-
-
   @ViewChild("modalAddProject", {static: false})
   modalAddProject: ElementRef;
 
+  @ViewChild(FormAddProjectComponent, {static: true}) child;
 
   @Output() public newProject: EventEmitter<ProjectInterface> = new EventEmitter<ProjectInterface>();
 
@@ -51,6 +33,9 @@ export class ModalAddProjectComponent implements OnInit {
 
   ngOnInit() { }
 
+  receiveTitle($event) {
+    this.projectTitle = $event;
+  }
 
   submitCreateProjectForm() {
     const project: Project = new Project(null, this.projectTitle, null);
@@ -64,7 +49,9 @@ export class ModalAddProjectComponent implements OnInit {
   }
 
   open() {
+    console.log(12);
     this.dialogRef = this.modalService.open(this.modalAddProject);
+    console.log("Success");
   }
 
   closeModal(data = null) {
