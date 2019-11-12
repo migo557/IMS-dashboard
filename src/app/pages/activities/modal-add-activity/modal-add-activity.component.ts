@@ -43,9 +43,7 @@ export class ModalAddActivityComponent implements OnInit {
   }
 
   open() {
-    console.log(12321);
     this.dialogRef = this.modalService.open(this.modalAddActivity);
-    console.log("Success");
   }
 
   closeModal(data = null) {
@@ -57,8 +55,6 @@ export class ModalAddActivityComponent implements OnInit {
       this.userId = r.id;
     });
     this.getProjects();
-    console.log('projects in modal: ', this.projectList);
-
 
     this.activityForm = new FormGroup({
       projectName: new FormControl(), // "", [Validators.required]
@@ -75,8 +71,7 @@ export class ModalAddActivityComponent implements OnInit {
 
   submitCreateActivityForm(): void {
     let val = this.activityForm.value;
-    // startTime =
-
+    const projectData = val.projectName.split(',',2);
 
 
     const partsStartTime =  val.startTime.toString().split(':');
