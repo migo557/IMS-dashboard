@@ -1,23 +1,44 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectInterface} from "../models/project";
 import {CommonHttpService} from "./common-http.service";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {User} from "../models/user";
+import {catchError} from "rxjs/operators";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class ProjectService {
 
-  private projectsSource: BehaviorSubject<Project> = new BehaviorSubject<Project>(null);
-  public project$: Observable<Project> = this.projectsSource.asObservable();
+    private projectsSource: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>(null);
+    public project$: Observable<Project[]> = this.projectsSource.asObservable();
 
-  constructor(private commonHttp: CommonHttpService) { }
+    constructor(
+        private commonHttp: CommonHttpService,
+        private snackBar: MatSnackBar,
+    ) { }
 
-  createProject(project: Project) {
-    return this.commonHttp.post<ProjectInterface>('/api/project/create', project);
-  }
+    createProject(project: Project) {
+        return this.commonHttp.post<ProjectInterface>('/api/project/create', project);
+    }
 
-  getProjectList(userId: Number) {
-    return this.commonHttp.get<ProjectInterface[]>('/api/project/getList/', userId);
-  }
+    getProjectList() {
+        return this.commonHttp.get<ProjectInterface[]>('/api/project/getList/')
+            .pipe(
+                catchError((err) => {
+                    this.snackBar.open("An error occured while trying to load your projects",
+                        'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    console.log("error= ", err);
+                    return of(null);
+                })
+            )
+    }
+
+    public announceProjectData(data) {
+        this.projectsSource.next(data);
+    }
 }
 

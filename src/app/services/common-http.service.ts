@@ -16,7 +16,7 @@ export class CommonHttpService extends BaseHttpService {
     }
 
 
-    get<T>(url, obj) {
-        return this.http.get<T>(this.baseUrl + url + obj);
+    get<T>(url) {
+        return this.http.get<T>(this.baseUrl + url);
     }
 }

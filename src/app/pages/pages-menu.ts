@@ -12,7 +12,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'clipboard-outline',
   },
   {
-    title: 'Activities',
+    title: 'My activities',
     link: '/pages/activities',
     icon: 'clock-outline',
   },

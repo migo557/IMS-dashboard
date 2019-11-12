@@ -101,7 +101,7 @@ export class ModalAddActivityComponent implements OnInit {
   }
 
   getProjects() {
-    this.projectService.getProjectList(this.userId)
+    this.projectService.getProjectList()
       .subscribe(
         result => {
           this.projectList = result.map(

@@ -21,7 +21,7 @@ export class ActivityService {
 
 
     getActivityList(activityFilter: ActivityFilter) {
-        return this.commonHttp.post<Activity[]>('/api/timelog/getList1/', activityFilter)
+        return this.commonHttp.post<Activity[]>('/api/timelog/getList/', activityFilter)
             .pipe(
                 catchError((err) => {
                     this.snackBar.open("An error occured while trying to load your activities",
@@ -30,15 +30,13 @@ export class ActivityService {
                             horizontalPosition: "center",
                             verticalPosition: "top"
                         });
-                    console.log("ERROR HERE)");
-                    return null;
+                    return of(null);
                 })
             )
     }
 
     public announceActivityData(data) {
         this.activitiesSource.next(data);
-        console.log('data= ', data);
     }
 
     createActivity(activity: Activity) {

@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Activity, ActivityInterface} from "../../models/activity";
 import {ActivityService} from "../../services/activity.service";
 import {ActivityFilter} from "../../models/activity-filter";
 import {LocalDataSource} from "ng2-smart-table";
-import {NgxSmartModalService} from 'ngx-smart-modal';
-import {ProjectInterface} from "../../models/project";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity.component";
 
@@ -28,22 +26,24 @@ export class ActivitiesComponent implements OnInit {
 
 
     constructor(
-        protected  activityHttpService: ActivityService,
+        private  activityService: ActivityService,
         private snackBar: MatSnackBar,
+        private authService: AuthService,
     ) {
     }
 
     ngOnInit() {
-        this.getActivitiesObs = this.getActivities().subscribe(activities => {
-            this.activityHttpService.announceActivityData(activities);
-            console.log("activities = ", activities);
-        });
+        this.getActivitiesObs = this.getActivities()
+            .subscribe(activities => {
+                this.activityService.announceActivityData(activities);
+            });
 
-        this.nextActivitiesObs = this.activityHttpService.activities$.subscribe(activities => {
-            if (activities) {
-                this.dataSource = new LocalDataSource(activities);
-            }
-        });
+        this.nextActivitiesObs = this.activityService.activities$
+            .subscribe(activities => {
+                if (activities) {
+                    this.dataSource = new LocalDataSource(activities);
+                }
+            });
     }
 
     ngOnDestroy() {
@@ -57,11 +57,10 @@ export class ActivitiesComponent implements OnInit {
             const date2 = new Date("December 12, 2030");
 
             activityFilter = new ActivityFilter([],
-                1, date1, date2);
+                date1, date2);
         }
-        console.log(this.activityHttpService.activities$);
 
-        return this.activityHttpService.getActivityList(activityFilter);
+        return this.activityService.getActivityList(activityFilter);
     }
 
     open() {
@@ -75,10 +74,6 @@ export class ActivitiesComponent implements OnInit {
                 });
             }
         })
-    }
-
-    public addNewActivity(project: ProjectInterface) {
-        this.dataSource.add(project).then(r => r);
     }
 
     settings = {
