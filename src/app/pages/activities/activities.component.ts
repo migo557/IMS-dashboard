@@ -29,8 +29,7 @@ export class ActivitiesComponent implements OnInit {
 
     constructor(
         protected  activityHttpService: ActivityService,
-        protected ngxSmartModalService: NgxSmartModalService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
     ) {
     }
 
@@ -40,12 +39,17 @@ export class ActivitiesComponent implements OnInit {
             console.log("activities = ", activities);
         });
 
-        this.getActivitiesObs = this.activityHttpService.activities$.subscribe(activities => {
-            this.dataSource = new LocalDataSource(activities);
+        this.nextActivitiesObs = this.activityHttpService.activities$.subscribe(activities => {
+            if (activities) {
+                this.dataSource = new LocalDataSource(activities);
+            }
         });
     }
 
-    //todo: add onDestroy
+    ngOnDestroy() {
+        this.getActivitiesObs.unsubscribe();
+        this.nextActivitiesObs.unsubscribe();
+    }
 
     getActivities(activityFilter: ActivityFilter = null) {
         if (!activityFilter) {
@@ -53,19 +57,11 @@ export class ActivitiesComponent implements OnInit {
             const date2 = new Date("December 12, 2030");
 
             activityFilter = new ActivityFilter([],
-                this.userId, date1, date2);
+                1, date1, date2);
         }
         console.log(this.activityHttpService.activities$);
 
         return this.activityHttpService.getActivityList(activityFilter);
-            // .subscribe(
-            //     result => {
-            //         // const activities = new Activity[](result);
-            //         this.dataSource = new LocalDataSource(result);
-            //         // this.dataSource.add(result).then(r => r);
-            //         console.log(this.dataSource);
-            //     },
-            // );
     }
 
     open() {
