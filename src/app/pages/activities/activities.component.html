@@ -1,19 +1,19 @@
 <modal-add-activity></modal-add-activity>
 
 <div class="row">
-  <div>
-    <ng2-smart-table [settings]="settings"
-                     [source]="dataSource"
-                     (deleteConfirm)="onDeleteConfirm($event)"
-                     (createConfirm)="onCreateConfirm($event)"
-                     (editConfirm)="onDeleteConfirm($event)">
-    </ng2-smart-table>
-  </div>
+    <div>
+        <ng2-smart-table [settings]="settings"
+                         [source]="dataSource"
+                         (deleteConfirm)="onDeleteConfirm($event)"
+                         (createConfirm)="onCreateConfirm($event)"
+                         (editConfirm)="onDeleteConfirm($event)">
+        </ng2-smart-table>
+    </div>
 
-  <div class="peer">
-    <button type="button" class="btn cur-p btn-primary"
-            data-target="#modal-add-activity" (click)="open()">
-      Add Activity
-    </button>
-  </div>
+    <div class="peer">
+        <button type="button" class="btn cur-p btn-primary"
+                data-target="#modal-add-activity" (click)="open()">
+            Add Activity
+        </button>
+    </div>
 </div>

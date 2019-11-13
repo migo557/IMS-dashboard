@@ -27,11 +27,10 @@ export class ProjectService {
                 catchError((err) => {
                     this.snackBar.open("An error occured while trying to load your projects",
                         'OK', {
-                            duration: 5000,
+                            duration: 10000,
                             horizontalPosition: "center",
                             verticalPosition: "top"
                         });
-                    console.log("error= ", err);
                     return of(null);
                 })
             )

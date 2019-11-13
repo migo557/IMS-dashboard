@@ -49,9 +49,7 @@ export class ModalAddProjectComponent implements OnInit {
   }
 
   open() {
-    console.log(12);
     this.dialogRef = this.modalService.open(this.modalAddProject);
-    console.log("Success");
   }
 
   closeModal(data = null) {

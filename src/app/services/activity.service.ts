@@ -26,7 +26,7 @@ export class ActivityService {
                 catchError((err) => {
                     this.snackBar.open("An error occured while trying to load your activities",
                         'OK', {
-                            duration: 5000,
+                            duration: 10000,
                             horizontalPosition: "center",
                             verticalPosition: "top"
                         });

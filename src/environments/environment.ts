@@ -10,5 +10,6 @@
 
 export const environment = {
     production: false,
-    spinner: false,
+    showSpinner: false,
 };
+

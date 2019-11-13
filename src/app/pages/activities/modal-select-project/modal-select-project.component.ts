@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'modal-select-project',
-  templateUrl: './modal-select-project.component.html',
-  styleUrls: ['./modal-select-project.component.scss']
+    selector: 'modal-select-project',
+    templateUrl: './modal-select-project.component.html',
+    styleUrls: ['./modal-select-project.component.scss']
 })
 export class ModalSelectProjectComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    show = false;
+
+    ngOnInit() {
+    }
 
 }
