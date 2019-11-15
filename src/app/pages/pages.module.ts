@@ -27,6 +27,7 @@ import {ActivityService} from "../services/activity.service";
 import {NgxSmartModalModule, NgxSmartModalService} from "ngx-smart-modal";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { ModalActivitiesFilterComponent } from './activities/modal-activities-filter/modal-activities-filter.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import {MatInputModule} from "@angular/material/input";
     ActivitiesComponent,
     ModalAddActivityComponent,
     ModalSelectProjectComponent,
+    ModalActivitiesFilterComponent,
   ],
   providers: [
     AuthService,

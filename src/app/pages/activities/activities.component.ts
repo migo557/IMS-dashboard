@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
-import {Activity, ActivityInterface} from "../../models/activity";
+import {Activity} from "../../models/activity";
 import {ActivityService} from "../../services/activity.service";
 import {ActivityFilter} from "../../models/activity-filter";
 import {LocalDataSource} from "ng2-smart-table";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity.component";
+import { NbDateService } from '@nebular/theme';
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -16,39 +17,41 @@ import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity
 
 
 export class ActivitiesComponent implements OnInit {
-
+    private sub: Subscription = new Subscription();
     public dataSource: LocalDataSource = new LocalDataSource();
-    private getActivitiesObs: any;
-    private nextActivitiesObs: any;
 
     @ViewChild(ModalAddActivityComponent, {static: false})
     private modalAddActivity: ModalAddActivityComponent;
 
 
     constructor(
-        private  activityService: ActivityService,
+        private activityService: ActivityService,
         private snackBar: MatSnackBar,
-        private authService: AuthService,
     ) {
+
     }
 
     ngOnInit() {
-        this.getActivitiesObs = this.getActivities()
+        let getActivitiesSub = this.getActivities()
             .subscribe(activities => {
-                this.activityService.announceActivityData(activities);
+                this.activityService.announceActivityList(activities);
             });
 
-        this.nextActivitiesObs = this.activityService.activities$
+        let nextActivitiesSub = this.activityService.activities$
             .subscribe(activities => {
                 if (activities) {
                     this.dataSource = new LocalDataSource(activities);
                 }
             });
+
+        this.sub.add(getActivitiesSub);
+        this.sub.add(nextActivitiesSub);
     }
 
     ngOnDestroy() {
-        this.getActivitiesObs.unsubscribe();
-        this.nextActivitiesObs.unsubscribe();
+        if(this.sub) {
+            this.sub.unsubscribe();
+        }
     }
 
     getActivities(activityFilter: ActivityFilter = null) {
@@ -56,8 +59,7 @@ export class ActivitiesComponent implements OnInit {
             const date1 = new Date("December 12, 2000");
             const date2 = new Date("December 12, 2030");
 
-            activityFilter = new ActivityFilter([],
-                date1, date2);
+            activityFilter = null;
         }
 
         return this.activityService.getActivityList(activityFilter);
@@ -75,6 +77,19 @@ export class ActivitiesComponent implements OnInit {
             }
         })
     }
+
+    rangeFilterUpdated($event) {
+        console.log("in activity: ",$event);
+        const date1 = new Date("December 12, 2019");
+        const date2 = new Date($event.end);
+        console.log(date2);
+        console.log(date1);
+
+        if ($event.end) {
+            const activityFilter = new ActivityFilter([],$event.start, $event.end);
+        }
+    }
+
 
     settings = {
         add: {

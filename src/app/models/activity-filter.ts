@@ -1,17 +1,17 @@
+import {ActivityDateRangeFilter} from "./activity-date-range-filter";
+
 interface ActivityFilterInterface {
   projectIds: number[];
-  dateFrom: Date;
-  dateTo: Date;
+  activityDateRangeFilter: ActivityDateRangeFilter;
+
 }
 
 export class ActivityFilter implements ActivityFilterInterface{
   projectIds: number[];
-  dateFrom: Date;
-  dateTo: Date;
+  activityDateRangeFilter: ActivityDateRangeFilter;
 
-  constructor(projectIds: number[], dateFrom: Date, dateTo: Date) {
+  constructor(projectIds: number[], activityDateRangeFilter: ActivityDateRangeFilter) {
     this.projectIds = projectIds;
-    this.dateFrom = dateFrom;
-    this.dateTo = dateTo;
+    this.activityDateRangeFilter = activityDateRangeFilter;
   }
 }

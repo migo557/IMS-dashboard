@@ -1,0 +1,11 @@
+<div class="col-md-12 col-lg-12 col-xxxl-12">
+  <nb-card>
+    <nb-card-header>Activity filter</nb-card-header>
+    <nb-card-body>
+      <input nbInput placeholder="Select Dates" [nbDatepicker]="rangepicker">
+      <nb-rangepicker (rangeChange)="onEventStartEndRange($event)"
+                      #rangepicker>
+      </nb-rangepicker>
+    </nb-card-body>
+  </nb-card>
+</div>

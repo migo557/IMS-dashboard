@@ -1,5 +1,6 @@
-<modal-add-activity></modal-add-activity>
+<modal-activities-filter (updateFilter)="rangeFilterUpdated($event)"></modal-activities-filter>
 
+<modal-add-activity></modal-add-activity>
 <div class="row">
     <div>
         <ng2-smart-table [settings]="settings"
