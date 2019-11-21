@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity.component";
 import { NbDateService } from '@nebular/theme';
 import { Subscription } from "rxjs";
+import {ActivityDateRangeFilter} from "../../models/activity-date-range-filter";
 
 
 @Component({
@@ -32,6 +33,7 @@ export class ActivitiesComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log("activities initialized");
         let getActivitiesSub = this.getActivities()
             .subscribe(activities => {
                 this.activityService.announceActivityList(activities);
@@ -56,10 +58,8 @@ export class ActivitiesComponent implements OnInit {
 
     getActivities(activityFilter: ActivityFilter = null) {
         if (!activityFilter) {
-            const date1 = new Date("December 12, 2000");
-            const date2 = new Date("December 12, 2030");
-
-            activityFilter = null;
+            activityFilter = new ActivityFilter([],
+                new ActivityDateRangeFilter(new Date("December 12, 2000"), new Date("December 12, 2030")))
         }
 
         return this.activityService.getActivityList(activityFilter);
@@ -80,13 +80,14 @@ export class ActivitiesComponent implements OnInit {
 
     rangeFilterUpdated($event) {
         console.log("in activity: ",$event);
-        const date1 = new Date("December 12, 2019");
+        const date1 = new Date("December 12, 2010");
         const date2 = new Date($event.end);
         console.log(date2);
         console.log(date1);
 
         if ($event.end) {
-            const activityFilter = new ActivityFilter([],$event.start, $event.end);
+            const activityFilter = new ActivityFilter([], new ActivityDateRangeFilter($event.start, $event.end));
+            this.getActivities(activityFilter);
         }
     }
 

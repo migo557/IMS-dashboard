@@ -25,25 +25,26 @@ export class ModalActivitiesFilterComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.sub.add(this.activityService.activityFilterChanged());
+        this.sub.add(this.activityService.activityFilterChanged());
+    }
+
+    ngOnDestroy() {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
     }
 
     @Output() public updateFilter: EventEmitter<ActivityFilter> = new EventEmitter<ActivityFilter>();
 
     onEventStartEndRange($event) {
-        console.log($event);
-        this.updateFilter.emit($event);
-      const date1 = $event.start;
-      const date2 = $event.end;
-      this.activityService.announceDateRangeFilter(new ActivityDateRangeFilter($event.start, $event.end));
-      debugger
-
+        console.log("123", $event);
+        // this.updateFilter.emit($event);
+        if ($event.start != null && $event.end != null) {
+            this.activityService.announceDateRangeFilter(new ActivityDateRangeFilter($event.start, $event.end));
+            this.activityService.announceProjectIdsFilter([]);
+            console.log("12321");
+            console.log("111111");
+            console.log("22222222");
+        }
     }
-
-    ngOnDestroy() {
-      if (this.sub) {
-        this.sub.unsubscribe();
-      }
-    }
-
 }
