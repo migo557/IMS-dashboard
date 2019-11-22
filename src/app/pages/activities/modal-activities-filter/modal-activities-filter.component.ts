@@ -3,6 +3,7 @@ import {NbDateService} from "@nebular/theme";
 import {ActivityService} from "../../../services/activity.service";
 import {ActivityDateRangeFilter} from "../../../models/activity-date-range-filter";
 import {Subscription} from "rxjs";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
     selector: 'modal-activities-filter',
@@ -12,18 +13,32 @@ import {Subscription} from "rxjs";
 export class ModalActivitiesFilterComponent implements OnInit {
     private sub: Subscription = new Subscription();
 
-    min: Date;
-    max: Date;
+    projectList = [];
+    selectedItems = [];
+    dropdownList = [];
 
     constructor(
-        protected dateService: NbDateService<Date>,
-        private activityService: ActivityService
-    ) {
-        this.min = this.dateService.addDay(this.dateService.today(), -5);
-        this.max = this.dateService.addDay(this.dateService.today(), 5);
-    }
+        private activityService: ActivityService,
+        private projectService: ProjectService
+    ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        const projectListNextObs = this.projectService.getProjectList()
+            .subscribe(p => {
+                this.projectService.announceProjectList(p);
+            });
+
+        const projectListObs = this.projectService.project$
+            .subscribe(p => {
+                this.projectList = p;
+                console.log("project list:", p);
+                console.log("project list:", p);
+                console.log("project list:", p);
+            });
+
+        this.sub.add(projectListNextObs);
+        this.sub.add(projectListObs);
+    }
 
     ngOnDestroy() {
         if (this.sub) {
@@ -31,14 +46,50 @@ export class ModalActivitiesFilterComponent implements OnInit {
         }
     }
 
-
     onEventStartEndRange($event) {
-        // this.updateFilter.emit($event);
         if ($event.start != null && $event.end != null) {
             const filter = new ActivityDateRangeFilter($event.start, $event.end);
             this.activityService.announceDateRangeFilter(filter);
         }
     }
 
+    //Project ID Filter:
+    dropdownSettings = {
+        singleSelection: false,
+        text:"Select Projects",
+        enableCheckAll: true,
+        selectAllText:'Select All',
+        unSelectAllText:'UnSelect All',
+        enableSearchFilter: false,
+        classes:"myclass custom-class"
+    };
 
+    onItemSelect(item:any){
+        let arr=[];
+        this.selectedItems.forEach(i => {
+            arr[arr.length] = i.id;
+        });
+        this.activityService.announceProjectIdsFilter(arr);
+    }
+    OnItemDeSelect(item:any){
+        let arr=[];
+        this.selectedItems.forEach(i => {
+            arr[arr.length] = i.id;
+        });
+        this.activityService.announceProjectIdsFilter(arr);
+    }
+    onSelectAll(items: any){
+        let arr=[];
+        this.selectedItems.forEach(i => {
+            arr[arr.length] = i.id;
+        });
+        this.activityService.announceProjectIdsFilter(arr);
+    }
+    onDeSelectAll(items: any){
+        let arr=[];
+        this.selectedItems.forEach(i => {
+            arr[arr.length] = i.id;
+        });
+        this.activityService.announceProjectIdsFilter(arr);
+    }
 }

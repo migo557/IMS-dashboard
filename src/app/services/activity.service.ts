@@ -6,16 +6,15 @@ import {BehaviorSubject, Observable, of, combineLatest} from "rxjs";
 import {catchError, switchMap} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivityDateRangeFilter} from "../models/activity-date-range-filter";
-import {NbDateService} from "@nebular/theme";
 
 @Injectable()
 export class ActivityService {
-
-    private activityList: BehaviorSubject<Activity[]> = new BehaviorSubject<Activity[]>(null);
-    public activities$: Observable<Activity[]> = this.activityList.asObservable();
-    public announceActivityList = (list: Activity[]) => {
-        this.activityList.next(list);
-    };
+    //todo: remove after approve
+    // private activityList: BehaviorSubject<Activity[]> = new BehaviorSubject<Activity[]>(null);
+    // public activities$: Observable<Activity[]> = this.activityList.asObservable();
+    // public announceActivityList = (list: Activity[]) => {
+    //     this.activityList.next(list);
+    // };
 
     private projectIdsFilter: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
     public projectIdsFilter$: Observable<number[]> = this.projectIdsFilter.asObservable();
@@ -51,9 +50,10 @@ export class ActivityService {
         return this.commonHttp.post<Activity[]>('/api/timelog/getList/', activityFilter)
             .pipe(
                 catchError((err) => {
+                    console.log("ERROR in GetActivities List:", err);
                     this.snackBar.open("An error occured while trying to load your activities",
                         'OK', {
-                            duration: 10000,
+                            duration: 5000,
                             horizontalPosition: "center",
                             verticalPosition: "top"
                         });

@@ -9,8 +9,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Injectable()
 export class ProjectService {
 
-    private projectsSource: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>(null);
-    public project$: Observable<Project[]> = this.projectsSource.asObservable();
+    private projectSource: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>(null);
+    public project$: Observable<Project[]> = this.projectSource.asObservable();
+    public announceProjectList = (list: Project[]) => {
+        this.projectSource.next(list);
+    };
+
 
     constructor(
         private commonHttp: CommonHttpService,
@@ -37,7 +41,7 @@ export class ProjectService {
     }
 
     public announceProjectData(data) {
-        this.projectsSource.next(data);
+        this.projectSource.next(data);
     }
 }
 
