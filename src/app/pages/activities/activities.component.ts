@@ -36,16 +36,19 @@ export class ActivitiesComponent implements OnInit {
         console.log("activities initialized");
         let getActivitiesSub = this.getActivities()
             .subscribe(activities => {
+                console.log("activities: ", activities);
                 this.activityService.announceActivityList(activities);
             });
 
-        let nextActivitiesSub = this.activityService.activities$
+        let nextActivitiesSub = this.activityService.filteredList$
             .subscribe(activities => {
+                console.log("next activities before if: ", activities);
+
                 if (activities) {
+                    console.log("next activities: ", activities);
                     this.dataSource = new LocalDataSource(activities);
                 }
             });
-
         this.sub.add(getActivitiesSub);
         this.sub.add(nextActivitiesSub);
     }

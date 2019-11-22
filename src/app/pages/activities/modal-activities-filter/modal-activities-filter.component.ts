@@ -25,7 +25,12 @@ export class ModalActivitiesFilterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.sub.add(this.activityService.activityFilterChanged());
+        // this.sub.add(this.activityService.activityFilterChanged());
+
+        let nextTest = this.activityService.filteredTest
+            .subscribe(t => {
+                console.log("In subscription", t);
+            });
     }
 
     ngOnDestroy() {
@@ -40,8 +45,10 @@ export class ModalActivitiesFilterComponent implements OnInit {
         console.log("123", $event);
         // this.updateFilter.emit($event);
         if ($event.start != null && $event.end != null) {
-            this.activityService.announceDateRangeFilter(new ActivityDateRangeFilter($event.start, $event.end));
-            this.activityService.announceProjectIdsFilter([]);
+            const filter = new ActivityDateRangeFilter($event.start, $event.end);
+            this.activityService.announceDateRangeFilter(filter);
+            this.activityService.announceTest(this.activityService.test.getValue()+3);
+            // this.activityService.announceProjectIdsFilter([]);
             console.log("12321");
             console.log("111111");
             console.log("22222222");

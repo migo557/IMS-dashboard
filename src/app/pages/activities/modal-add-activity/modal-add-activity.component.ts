@@ -75,13 +75,13 @@ export class ModalAddActivityComponent implements OnInit {
         let  startTime = new Date (val.date.toUTCString());
         startTime.setHours(+val.startTime.hour);
         startTime.setMinutes(+val.startTime.minute);
-        startTime.setSeconds(+val.startTime.seconds);
+        startTime.setSeconds(+val.startTime.second);
         let  endTime = new Date (val.date.toUTCString());
         endTime.setHours(+val.startTime.hour);
         endTime.setMinutes(+val.startTime.minute);
-        endTime.setSeconds(+val.startTime.seconds);
+        endTime.setSeconds(+val.startTime.second);
         const projectData = val.projectName.split(',', 2);
-
+        let hours = (+val.hours.hour) + (+val.hours.minute);
         //
         // const partsStartTime =  val.startTime.toString().split(':');
         // const partsHours =  val.hours.toString().split(':');
@@ -97,7 +97,7 @@ export class ModalAddActivityComponent implements OnInit {
         // TODO Change user_id
         // TODO implement description
         const activity: Activity = new Activity(0, 1,
-            this.userId, val.description, 123, 1, 1);
+            this.userId, val.description, hours, startTime, endTime);
 
         this.activityService.createActivity(activity).subscribe(
             result => {
