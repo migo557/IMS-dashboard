@@ -2,10 +2,14 @@
   <nb-card>
     <nb-card-header>Activity filter</nb-card-header>
     <nb-card-body>
-      <input nbInput placeholder="Select Dates" [nbDatepicker]="rangepicker">
-      <nb-rangepicker (rangeChange)="onEventStartEndRange($event)"
-                      #rangepicker>
-      </nb-rangepicker>
+        <div class="col-5">
+          <input nbInput placeholder="Select Dates" [nbDatepicker]="rangepicker">
+          <nb-rangepicker (rangeChange)="onEventStartEndRange($event)"
+                          value="(min)"
+                          #rangepicker>
+          </nb-rangepicker>
+        </div>
+
     </nb-card-body>
   </nb-card>
 </div>

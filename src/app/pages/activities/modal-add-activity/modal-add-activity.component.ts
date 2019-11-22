@@ -14,7 +14,6 @@ import {start} from "repl";
     templateUrl: './modal-add-activity.component.html',
     styleUrls: ['./modal-add-activity.component.scss'],
     providers: [NgbModal, NgbModalConfig],
-    // encapsulation: ViewEncapsulation.None,
 })
 
 export class ModalAddActivityComponent implements OnInit {
@@ -58,7 +57,7 @@ export class ModalAddActivityComponent implements OnInit {
         this.getProjects();
 
         this.activityForm = new FormGroup({
-            projectName: new FormControl(), // "", [Validators.required]
+            projectName: new FormControl(),
             date: new FormControl(new Date()),
             hours: new FormControl(),
             description: new FormControl(),
@@ -71,30 +70,19 @@ export class ModalAddActivityComponent implements OnInit {
 
 
     submitCreateActivityForm(): void {
-        let val = this.activityForm.value;
-        let  startTime = new Date (val.date.toUTCString());
+        const val = this.activityForm.value;
+        const  startTime = new Date (val.date.toUTCString());
         startTime.setHours(+val.startTime.hour);
         startTime.setMinutes(+val.startTime.minute);
         startTime.setSeconds(+val.startTime.second);
-        let  endTime = new Date (val.date.toUTCString());
+        const  endTime = new Date (val.date.toUTCString());
         endTime.setHours(+val.startTime.hour);
         endTime.setMinutes(+val.startTime.minute);
         endTime.setSeconds(+val.startTime.second);
         const projectData = val.projectName.split(',', 2);
-        let hours = (+val.hours.hour) + (+val.hours.minute);
-        //
-        // const partsStartTime =  val.startTime.toString().split(':');
-        // const partsHours =  val.hours.toString().split(':');
-        // const hoursInMinutes = parseInt(partsHours[0], 10) * 60 + parseInt(partsHours[1], 10);
-        //
-        // const startDateTime = val.date;
-        // startDateTime.setHours(parseInt(partsStartTime[0], 10), parseInt(partsStartTime[1], 10), 0);
-        // let endDateTime = new Date(startDateTime);
-        // endDateTime.setHours(endDateTime.getHours() + parseInt(partsHours[0], 10));
-        // endDateTime.setMinutes(endDateTime.getMinutes() + parseInt(partsHours[1], 10));
+        const hours = (+val.hours.hour) + (+val.hours.minute);
 
-
-        // TODO Change user_id
+        // TODO Remove UserID and fix
         // TODO implement description
         const activity: Activity = new Activity(0, 1,
             this.userId, val.description, hours, startTime, endTime);

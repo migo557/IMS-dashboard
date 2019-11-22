@@ -33,23 +33,10 @@ export class ActivitiesComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("activities initialized");
-        let getActivitiesSub = this.getActivities()
+        const nextActivitiesSub = this.activityService.filteredList$
             .subscribe(activities => {
-                console.log("activities: ", activities);
-                this.activityService.announceActivityList(activities);
+                this.dataSource = new LocalDataSource(activities);
             });
-
-        let nextActivitiesSub = this.activityService.filteredList$
-            .subscribe(activities => {
-                console.log("next activities before if: ", activities);
-
-                if (activities) {
-                    console.log("next activities: ", activities);
-                    this.dataSource = new LocalDataSource(activities);
-                }
-            });
-        this.sub.add(getActivitiesSub);
         this.sub.add(nextActivitiesSub);
     }
 
@@ -57,15 +44,6 @@ export class ActivitiesComponent implements OnInit {
         if(this.sub) {
             this.sub.unsubscribe();
         }
-    }
-
-    getActivities(activityFilter: ActivityFilter = null) {
-        if (!activityFilter) {
-            activityFilter = new ActivityFilter([],
-                new ActivityDateRangeFilter(new Date("December 12, 2000"), new Date("December 12, 2030")))
-        }
-
-        return this.activityService.getActivityList(activityFilter);
     }
 
     open() {
@@ -79,19 +57,6 @@ export class ActivitiesComponent implements OnInit {
                 });
             }
         })
-    }
-
-    rangeFilterUpdated($event) {
-        console.log("in activity: ",$event);
-        const date1 = new Date("December 12, 2010");
-        const date2 = new Date($event.end);
-        console.log(date2);
-        console.log(date1);
-
-        if ($event.end) {
-            const activityFilter = new ActivityFilter([], new ActivityDateRangeFilter($event.start, $event.end));
-            this.getActivities(activityFilter);
-        }
     }
 
 

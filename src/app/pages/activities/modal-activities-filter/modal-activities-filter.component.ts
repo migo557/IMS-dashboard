@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ActivityFilter} from "../../../models/activity-filter";
 import {NbDateService} from "@nebular/theme";
 import {ActivityService} from "../../../services/activity.service";
 import {ActivityDateRangeFilter} from "../../../models/activity-date-range-filter";
@@ -24,14 +23,7 @@ export class ModalActivitiesFilterComponent implements OnInit {
         this.max = this.dateService.addDay(this.dateService.today(), 5);
     }
 
-    ngOnInit() {
-        // this.sub.add(this.activityService.activityFilterChanged());
-
-        let nextTest = this.activityService.filteredTest
-            .subscribe(t => {
-                console.log("In subscription", t);
-            });
-    }
+    ngOnInit() { }
 
     ngOnDestroy() {
         if (this.sub) {
@@ -39,19 +31,14 @@ export class ModalActivitiesFilterComponent implements OnInit {
         }
     }
 
-    @Output() public updateFilter: EventEmitter<ActivityFilter> = new EventEmitter<ActivityFilter>();
 
     onEventStartEndRange($event) {
-        console.log("123", $event);
         // this.updateFilter.emit($event);
         if ($event.start != null && $event.end != null) {
             const filter = new ActivityDateRangeFilter($event.start, $event.end);
             this.activityService.announceDateRangeFilter(filter);
-            this.activityService.announceTest(this.activityService.test.getValue()+3);
-            // this.activityService.announceProjectIdsFilter([]);
-            console.log("12321");
-            console.log("111111");
-            console.log("22222222");
         }
     }
+
+
 }
