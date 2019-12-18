@@ -1,15 +1,15 @@
-<div class="col-md-12 col-lg-12 col-xxxl-12">
-  <nb-card>
-    <nb-card-header>Activity filter</nb-card-header>
-    <nb-card-body>
-        <div class="col-5">
-          <input nbInput placeholder="Select Dates" [nbDatepicker]="rangepicker">
-          <nb-rangepicker (rangeChange)="onEventStartEndRange($event)"
-                          value="(min)"
-                          #rangepicker>
-          </nb-rangepicker>
+<!--<div class="row">-->
+    <div class="row justify-content-md-end">
+<!--        <h4>Activity filter</h4>-->
+        <div class="col-auto">
+            <input nbInput placeholder="Select Dates" [nbDatepicker]="rangepicker">
+            <nb-rangepicker (rangeChange)="onEventStartEndRange($event)"
+                            value="(min)"
+                            #rangepicker>
+            </nb-rangepicker>
         </div>
-        <div class="col-7">
+        <br>
+        <div class="col-5">
             <angular2-multiselect [data]="projectList" [(ngModel)]="selectedItems"
                                   [settings]="dropdownSettings"
                                   (onSelect)="onItemSelect($event)"
@@ -26,14 +26,6 @@
         </div>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-    </nb-card-body>
-  </nb-card>
-</div>
+
+    </div>
+<!--</div>-->

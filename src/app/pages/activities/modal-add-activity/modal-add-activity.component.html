@@ -1,103 +1,147 @@
 <!-- The Modal -->
 <!--<div class="modal fade" id="modal-add-activity" #modalAddActivity>-->
 <ng-template #modalAddActivity let-c="close" let-d="dismiss">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div>
+        <nb-card>
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="modal-title">Add Manual Time Entry</h2>
-        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
-      </div>
+            <!-- Modal Header -->
+            <nb-card-header class="card-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
+                <h1 class="mat-display-1 header-text">Add Manual Time Entry</h1>
+            </nb-card-header>
 
-      <div class="container">
-        <div class="row">
+            <nb-card-body>
+                <div class="row" align-items="center">
 
-          <div class="panel-body">
-            <form [formGroup]="activityForm">
+                    <div class="panel-body" *ngIf="activityForm">
+                        <form [formGroup]="activityForm">
 
-              <!--Project name-->
-              <div class="offset-1">
-                <label for="projectNamesSelect" class="col-sm-3 offset-1">Project  </label>
-                <select formControlName="projectName" id="projectNamesSelect" class="description">
-                  <option class="description" *ngFor="let project of projectList" [value]="[project.id, project.title]">
-                    {{project.title}}
-                  </option>
-                </select>
-              </div>
+                            <!--Project name-->
+                            <!--                                <div class="offset-1">-->
+                            <div class="row" align-items="center">
+                                <div for="projectNamesSelect" class="col-sm-3 offset-md-1 modal-text2">Project</div>
+                                <div class="col-sm-6">
+                                    <select formControlName="projectName" id="projectNamesSelect"
+                                            class="description project-select">
+                                        <option class="description" *ngFor="let project of projectList"
+                                                [value]="[project.id, project.title]">
+                                            {{project.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--                                </div>-->
 
-              <div>
-                <label class="basic-container col-sm-3 offset-md-1">Description  </label>
-                <input formControlName="description" id="description" class="description" type="text">
-              </div>
+                            <div class="row" align-items="center">
+                                <div class="col-sm-3 offset-md-1 modal-text2">
+                                    Description
+                                </div>
 
-              <!--Hours selector-->
-              <div class="row">
-                <div class="col-sm-2 offset-md-1">
-                  <br>
-                  <br>
-                  <p>Hours:</p>
+                                <div class="col-sm-6">
+                                    <input formControlName="description" id="description" class="description"
+                                           type="text">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3 offset-1 modal-text2">
+                                    <p>Date:</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input nbInput
+                                           placeholder="Form Picker"
+                                           formControlName="date"
+                                           [nbDatepicker]="formpicker">
+                                    <nb-datepicker #formpicker></nb-datepicker>
+                                </div>
+                            </div>
+
+
+                            <!--Hours selector-->
+                            <div class="row" align-items="center">
+                                <div class="col-sm-2 offset-md-1 modal-text2">
+                                    <p>Hours:</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    {{qtyOfHours}}
+<!--                                    {{err}}-->
+                                </div>
+<!--                                <div class="col-sm-4">-->
+<!--                                    <ngb-timepicker formControlName="hours"></ngb-timepicker>-->
+<!--                                </div>-->
+                                <hr>
+                            </div>
+
+                            <!--Start time selector-->
+                            <div class="row">
+                                <div class="col-sm-2 offset-1 modal-text2">
+                                    <p>Worked from:</p>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <ngb-timepicker formControlName="startTime"></ngb-timepicker>
+                                </div>
+                                <!--                                                    hidden="true"-->
+
+
+                                <div class="col-sm-1 modal-text2">
+                                    <p>to</p>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <ngb-timepicker formControlName="endTime"
+                                                    (ngModelChange)="endTimeUpdate()"></ngb-timepicker>
+
+<!--                                    <div *ngIf="activityForm.value.startTime.valid" class="small form-text text-success">Great choice</div>-->
+                                </div>
+                                <br>
+                                <hr>
+                            </div>
+                            <div class="row">
+                                <div *ngIf="activityForm.controls.startTime.valid">
+                                    <p>form is valid now</p>
+                                </div>
+
+                                <div *ngIf="!activityForm.controls.startTime.valid">
+                                    <p>form invalid</p>
+                                </div>
+
+                                <div class="form-text text-danger" *ngIf="!activityForm.controls.endTime.valid">
+                                    <div *ngIf="activityForm.controls.endTime.errors['ok']">OK!!</div>
+                                    <div *ngIf="activityForm.controls.endTime.errors['noHourDefined']">noEndHourDefined</div>
+                                    <div *ngIf="activityForm.controls.endTime.errors['ifStartTimeUndefined']">ifstartTimeUndefined</div>
+                                    <div *ngIf="activityForm.controls.endTime.errors['startTimeUndefined']">startTimeUndefined</div>
+                                    <div *ngIf="activityForm.controls.endTime.errors['endTimeIsLess']">endTimeIsLess</div>
+                                    <div *ngIf="activityForm.controls.endTime.errors['endTimeUndefined']">endTimeUndefined</div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
 
-                <div class="col-sm-6">
-                  <ngb-timepicker formControlName="hours"></ngb-timepicker>
-                </div>
-                <hr>
-              </div>
+            </nb-card-body>
+            <nb-card-footer>
+                <div class="row" align-items="center">
+                    <div class="col-4 offset-1">
 
-              <!--Start time selector-->
-              <div class="row">
-                <div class="col-sm-2 offset-1">
-                  <br>
-                  <br>
-                  <p>Worked from:</p>
-                </div>
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
+                                (click)="closeModal()">Cancel
+                        </button>
+                    </div>
 
-                <div class="col-sm-4">
-                  <ngb-timepicker formControlName="startTime"></ngb-timepicker>
-                </div>
+                    <div class="col-4 offset-3">
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"
+                                (click)="submitCreateActivityForm();">Submit
+                        </button>
+<!--                        [disabled]="!activityForm.valid"-->
 
-                <div class="col-sm-1">
-                  <br>
-                  <br>
-                  <p>to</p>
+                    </div>
                 </div>
+            </nb-card-footer>
 
-                <div class="col-sm-4">
-                  <ngb-timepicker formControlName="endTime"></ngb-timepicker>
-                </div>
-                <br>
-                <hr>
-              </div>
 
-              <div class="row">
-                <div class="col-sm-3 offset-1">
-                  <p>Date:</p>
-                </div>
-                <div class="col-sm-6">
-                  <input nbInput
-                         placeholder="Form Picker"
-                         formControlName="date"
-                         [nbDatepicker]="formpicker">
-                  <nb-datepicker #formpicker></nb-datepicker>
-                </div>
-              </div>
-              <br>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
-                (click)="closeModal()">Cancel</button>
-        <button type="submit" class="btn btn-success" data-dismiss="modal" [disabled]="!activityForm.valid"
-                (click)="submitCreateActivityForm();">Submit</button>
-      </div>
+        </nb-card>
     </div>
-  </div>
 </ng-template>
 <!--</div>-->
-
-

@@ -8,6 +8,10 @@ import {ModalAddActivityComponent} from "./modal-add-activity/modal-add-activity
 import { NbDateService } from '@nebular/theme';
 import { Subscription } from "rxjs";
 import {ActivityDateRangeFilter} from "../../models/activity-date-range-filter";
+import {
+    SmartTableDatepickerComponent,
+    SmartTableDatepickerRenderComponent
+} from "./addons/smart-table-datepicker/smart-table-datepicker.component";
 
 
 @Component({
@@ -28,9 +32,7 @@ export class ActivitiesComponent implements OnInit {
     constructor(
         private activityService: ActivityService,
         private snackBar: MatSnackBar,
-    ) {
-
-    }
+    ) { }
 
     ngOnInit() {
         const nextActivitiesSub = this.activityService.filteredList$
@@ -61,12 +63,22 @@ export class ActivitiesComponent implements OnInit {
 
 
     settings = {
+        actions: {
+            add: false,
+            edit: true,
+            delete: true,
+            position: 'right',
+        },
+        pager: {
+            display: true,
+        },
         add: {
             addButtonContent: '<i class="nb-plus"></i>',
             createButtonContent: '<i class="nb-checkmark"></i>',
             cancelButtonContent: '<i class="nb-close"></i>',
         },
         edit: {
+            confirmSave:true,
             editButtonContent: '<i class="nb-edit"></i>',
             saveButtonContent: '<i class="nb-checkmark"></i>',
             cancelButtonContent: '<i class="nb-close"></i>',
@@ -76,30 +88,138 @@ export class ActivitiesComponent implements OnInit {
             confirmDelete: true,
         },
         columns: {
-            id: {
-                title: 'Activity ID',
-                type: 'number',
+            // id: {
+            //     title: 'Activity ID',
+            //     type: 'number',
+            // },
+            userName: {
+                title: 'User Name',
+                type: 'string',
+                filter: false,
+            },
+            projectTitle: {
+                title: 'Project Title',
+                type: 'string',
+                filter: false,
             },
             description: {
                 title: 'Description',
                 type: 'string',
+                filter: false,
             },
             hours: {
                 title: 'hours',
                 type: 'number',
+                filter: false,
             },
             timeStart: {
                 title: 'Start Time',
+                type: 'custom',
+                renderComponent: SmartTableDatepickerRenderComponent,
+                width: '250px',
+                filter: false,
+                sortDirection: 'desc',
+                editor: {
+                    type: 'custom',
+                    component: SmartTableDatepickerComponent,
+                }
             },
             timeEnd: {
                 title: 'End Time',
-            },
+                type: 'custom',
+                renderComponent: SmartTableDatepickerRenderComponent,
+                width: '250px',
+                filter: false,
+                editor: {
+                    type: 'custom',
+                    component: SmartTableDatepickerComponent,
+                    config: {
+                        placeholder: 'End Time'
+                    }
+                }
+            }
+            // timeStart: {
+            //     title: 'Start Time',
+            //     filter: {
+            //         type: 'daterange',
+            //         config: {
+            //             daterange: {
+            //                 format: 'HH:MM dd/mm/yyyy',
+            //             },
+            //         }
+            //     }
+            // },
+            // timeEnd: {
+            //     title: 'End Time',
+            //     filter: {
+            //         type: 'daterange',
+            //         config: {
+            //             daterange: {
+            //                 format: 'HH:MM dd/mm/yyyy',
+            //             },
+            //         }
+            //     }
+            // },
         },
     };
 
     onDeleteConfirm(event): void {
         if (window.confirm('Are you sure you want to delete?')) {
-            event.confirm.resolve();
+            const deleted = this.activityService.removeActivity(event.data.id)
+                .subscribe(r => {
+                    if (r) {
+                        event.confirm.resolve();
+                        this.snackBar.open(`Activity with id"${event.data.id}" was successfully removed.`,
+                            'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    }
+                    else {
+                        this.snackBar.open(`Activity with id"${event.data.id}" was not removed.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                });
+
+        } else {
+            this.snackBar.open(`Activity with id"${event.data.id}" was not removed.`,
+                'OK', {
+                    duration: 5000,
+                    horizontalPosition: "center",
+                    verticalPosition: "top"
+                });
+            event.confirm.reject();
+        }
+    }
+
+    onEditConfirm(event): void {
+        if (window.confirm('Are you sure you want to save?')) {
+            this.activityService.updateActivity(event.newData)
+                .subscribe(r => {
+                    if (r) {
+                        event.confirm.resolve(event.newData);
+                        this.snackBar.open(`Activity with id"${event.data.id}" was successfully updated.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                    else {
+                        event.resolve(event.Data);
+                        this.snackBar.open(`Activity with id"${event.data.id}" was not updated.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                });
         } else {
             event.confirm.reject();
         }
@@ -112,6 +232,6 @@ export class ActivitiesComponent implements OnInit {
         } else {
             event.confirm.reject();
         }
-        return new Activity(event.data.id, event.data.title, null, null, null, null, null);
+        return new Activity( event.data.title, null, 2, event.data.description, null, null, null);
     }
 }

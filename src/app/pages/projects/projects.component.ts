@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalAddProjectComponent} from "./modal-add-project/modal-add-project.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Project, ProjectInterface} from "../../models/project";
 import {ProjectService} from "../../services/project.service";
 import {AuthService} from "../../services/auth.service";
 import {LocalDataSource} from "ng2-smart-table";
+import {MembersChipsComponent} from "./members-chips/members-chips.component";
 
 @Component({
     selector: 'ngx-app-projects',
@@ -61,6 +62,13 @@ export class ProjectsComponent implements OnInit {
 
 
     settings = {
+        actions: {
+            edit: true,
+            delete: true,
+            add: true,
+            position: 'right',
+        },
+
         add: {
             addButtonContent: '<i class="nb-plus"></i>',
             createButtonContent: '<i class="nb-checkmark"></i>',
@@ -76,14 +84,17 @@ export class ProjectsComponent implements OnInit {
             confirmDelete: true,
         },
         columns: {
-            id: {
-                title: 'ID',
-                type: 'number',
-            },
             title: {
                 title: 'Title',
                 type: 'string',
+
             },
+            members: {
+                title: 'Members',
+                type: 'custom',
+                renderComponent: MembersChipsComponent,
+
+            }
         },
     };
 

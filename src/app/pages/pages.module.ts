@@ -29,6 +29,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ModalActivitiesFilterComponent} from './activities/modal-activities-filter/modal-activities-filter.component';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
+import { MembersChipsComponent } from './projects/members-chips/members-chips.component';
+import {TagInputModule} from "ngx-chips";
+import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } from './activities/addons/smart-table-datepicker/smart-table-datepicker.component';
 
 
 @NgModule({
@@ -56,6 +59,7 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
         NbInputModule,
         FormsModule,
         AngularMultiSelectModule,
+        TagInputModule
 
     ],
     declarations: [
@@ -67,6 +71,9 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
         ModalAddActivityComponent,
         ModalSelectProjectComponent,
         ModalActivitiesFilterComponent,
+        MembersChipsComponent,
+        SmartTableDatepickerComponent,
+        SmartTableDatepickerRenderComponent,
     ],
     providers: [
         AuthService,
@@ -78,6 +85,9 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
         NgbModalConfig,
     ],
     entryComponents: [
+        MembersChipsComponent,
+        SmartTableDatepickerComponent,
+        SmartTableDatepickerRenderComponent,
         // ModalAddActivityComponent,
         // ActivitiesComponent,
     ]

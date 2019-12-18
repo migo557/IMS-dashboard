@@ -22,11 +22,11 @@ export class ProjectService {
     ) { }
 
     createProject(project: Project) {
-        return this.commonHttp.post<ProjectInterface>('/api/project/create', project);
+        return this.commonHttp.post<ProjectInterface>('project/create', project);
     }
 
     getProjectList() {
-        return this.commonHttp.get<ProjectInterface[]>('/api/project/getList/')
+        return this.commonHttp.get<ProjectInterface[]>('project/getList/')
             .pipe(
                 catchError((err) => {
                     this.snackBar.open("An error occured while trying to load your projects",

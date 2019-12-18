@@ -1,62 +1,103 @@
-.confirmation-modal {
-  background-color: black !important;
-  border: 1px solid grey;
+::ng-deep .confirmation-modal {
+    width : 120% !important;
+    background-color: black !important;
+    border: 1px solid grey;
 
-  .modal-body {
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    border-top: 1px solid transparent;
-    border-bottom-right-radius: 0.3rem;
-    border-bottom-left-radius: 0.3rem;
-    top: 60px;
-    position: relative;
-  }
+    //.modal-body {
+    //    color: white;
+    //    display: flex;
+    //    align-items: center;
+    //    justify-content: center;
+    //}
+    //
+    //.modal-footer {
+    //    display: flex;
+    //    align-items: center;
+    //    justify-content: center;
+    //    padding: 1rem;
+    //    border-top: 1px solid transparent;
+    //    border-bottom-right-radius: 0.3rem;
+    //    border-bottom-left-radius: 0.3rem;
+    //    top: 60px;
+    //    position: relative;
+    //}
 }
 
 .description {
-  //width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+    //width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-::ng-deep .cdk-overlay-container{
-  z-index: 1200 !important;
+::ng-deep {
+    .card-header {
+        height: 70px !important;
+    }
+
+    .header-text {
+        text-align-last: center;
+    }
+
+    .modal-dialog {
+        max-width: 590px;
+        margin: 1.75rem auto;
+    }
+
+    .project-select {
+        max-width: 100% !important;
+        width: 94%;
+    }
+
+    .modal-text {
+        position: relative;
+    }
+
+    .modal-text2 {
+        align-self: center;
+    }
+
+    .modal-text-align {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
 }
-.nb-overlay-end-top{
-  z-index: 3000 !important;
+
+::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
 }
-.cdk-overlay-pane{
-  z-index: 3000;
+
+.nb-overlay-end-top {
+    z-index: 3000 !important;
 }
+
+.cdk-overlay-pane {
+    z-index: 3000;
+}
+
 .my-calendar {
-  z-index: 4000 !important;
+    z-index: 4000 !important;
 }
+
 .nb-calendar {
-  z-index: 4000 !important;
+    z-index: 4000 !important;
 }
 
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-  nb-card-body {
-    display: flex;
-    justify-content: space-between;
+    nb-card-body {
+        display: flex;
+        justify-content: space-between;
 
-    input {
-      width: 100%;
+        input {
+            width: 100%;
+        }
     }
-  }
 }

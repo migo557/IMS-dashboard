@@ -3,7 +3,7 @@ import {CommonHttpService} from "./common-http.service";
 import {Activity} from "../models/activity";
 import {ActivityFilter} from "../models/activity-filter";
 import {BehaviorSubject, Observable, of, combineLatest} from "rxjs";
-import {catchError, switchMap} from "rxjs/operators";
+import {catchError, first, switchMap} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivityDateRangeFilter} from "../models/activity-date-range-filter";
 
@@ -23,7 +23,7 @@ export class ActivityService {
     };
 
     private dateRangeFilter: BehaviorSubject<ActivityDateRangeFilter> = new BehaviorSubject<ActivityDateRangeFilter>(
-        new ActivityDateRangeFilter(new Date(2018,11,1), new Date(2020, 1,1))
+        new ActivityDateRangeFilter(new Date(1900,11,1), new Date(2100, 1,1))
     );
     public dateRangeFilter$: Observable<ActivityDateRangeFilter> = this.dateRangeFilter.asObservable();
     public announceDateRangeFilter = (dateRangeFilter: ActivityDateRangeFilter) => {
@@ -47,7 +47,7 @@ export class ActivityService {
 
 
     getActivityList(activityFilter: ActivityFilter) {
-        return this.commonHttp.post<Activity[]>('/api/timelog/getList/', activityFilter)
+        return this.commonHttp.post<Activity[]>('timelog/getList/', activityFilter)
             .pipe(
                 catchError((err) => {
                     console.log("ERROR in GetActivities List:", err);
@@ -64,6 +64,41 @@ export class ActivityService {
 
 
     createActivity(activity: Activity) {
-        return this.commonHttp.post<Activity>('/api/timelog/create/', activity);
+        return this.commonHttp.post<Activity>('timelog/create/', activity);
+    }
+
+    removeActivity(activityId: number) {
+        return this.commonHttp.get('/timelog/remove/' + activityId)
+            .pipe(
+                first(),
+                catchError((err) => {
+                    console.log("ERROR in Remove TimeLog:", err);
+                    this.snackBar.open("An error occured while trying to remove your activitiy",
+                        'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    return of(null);
+                })
+            );
+    }
+
+    updateActivity(activity) {
+        return this.commonHttp.post('timelog/update', activity)
+        // return this.commonHttp.post('api/timelog/update', activity)
+            .pipe(
+                first(),
+                catchError((err) => {
+                    console.log("ERROR in Remove TimeLog:", err);
+                    this.snackBar.open("An error occured while trying to update your activitiy",
+                        'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    return of(null);
+                })
+            );
     }
 }

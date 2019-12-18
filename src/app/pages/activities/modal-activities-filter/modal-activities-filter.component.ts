@@ -30,10 +30,8 @@ export class ModalActivitiesFilterComponent implements OnInit {
 
         const projectListObs = this.projectService.project$
             .subscribe(p => {
-                this.projectList = p;
-                console.log("project list:", p);
-                console.log("project list:", p);
-                console.log("project list:", p);
+                // this.projectList = p;
+                this.projectList = Object.assign([], p);
             });
 
         this.sub.add(projectListNextObs);
@@ -71,6 +69,7 @@ export class ModalActivitiesFilterComponent implements OnInit {
         });
         this.activityService.announceProjectIdsFilter(arr);
     }
+
     OnItemDeSelect(item:any){
         let arr=[];
         this.selectedItems.forEach(i => {
@@ -78,6 +77,7 @@ export class ModalActivitiesFilterComponent implements OnInit {
         });
         this.activityService.announceProjectIdsFilter(arr);
     }
+
     onSelectAll(items: any){
         let arr=[];
         this.selectedItems.forEach(i => {
@@ -85,6 +85,7 @@ export class ModalActivitiesFilterComponent implements OnInit {
         });
         this.activityService.announceProjectIdsFilter(arr);
     }
+
     onDeSelectAll(items: any){
         let arr=[];
         this.selectedItems.forEach(i => {
