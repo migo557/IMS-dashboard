@@ -112,7 +112,6 @@ export class ModalAddActivityComponent implements OnInit {
                     return {endTimeUndefined: true}
                 }
             }),
-            startForm: new
         }, {updateOn: 'change'});
     }
 
