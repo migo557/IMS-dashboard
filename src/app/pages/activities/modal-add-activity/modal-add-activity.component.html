@@ -64,58 +64,26 @@
                                 </div>
                                 <div class="col-sm-4">
                                     {{qtyOfHours}}
-<!--                                    {{err}}-->
+                                    <!--                                    {{err}}-->
                                 </div>
-<!--                                <div class="col-sm-4">-->
-<!--                                    <ngb-timepicker formControlName="hours"></ngb-timepicker>-->
-<!--                                </div>-->
+                                <!--                                <div class="col-sm-4">-->
+                                <!--                                    <ngb-timepicker formControlName="hours"></ngb-timepicker>-->
+                                <!--                                </div>-->
                                 <hr>
                             </div>
 
                             <!--Start time selector-->
-                            <div class="row">
-                                <div class="col-sm-2 offset-1 modal-text2">
-                                    <p>Worked from:</p>
-                                </div>
 
-                                <div class="col-sm-4">
-                                    <ngb-timepicker formControlName="startTime"></ngb-timepicker>
-                                </div>
-                                <!--                                                    hidden="true"-->
+                            <br>
+                            <hr>
 
-
-                                <div class="col-sm-1 modal-text2">
-                                    <p>to</p>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <ngb-timepicker formControlName="endTime"
-                                                    (ngModelChange)="endTimeUpdate()"></ngb-timepicker>
-
-<!--                                    <div *ngIf="activityForm.value.startTime.valid" class="small form-text text-success">Great choice</div>-->
-                                </div>
-                                <br>
-                                <hr>
-                            </div>
-                            <div class="row">
-                                <div *ngIf="activityForm.controls.startTime.valid">
-                                    <p>form is valid now</p>
-                                </div>
-
-                                <div *ngIf="!activityForm.controls.startTime.valid">
-                                    <p>form invalid</p>
-                                </div>
-
-                                <div class="form-text text-danger" *ngIf="!activityForm.controls.endTime.valid">
-                                    <div *ngIf="activityForm.controls.endTime.errors['ok']">OK!!</div>
-                                    <div *ngIf="activityForm.controls.endTime.errors['noHourDefined']">noEndHourDefined</div>
-                                    <div *ngIf="activityForm.controls.endTime.errors['ifStartTimeUndefined']">ifstartTimeUndefined</div>
-                                    <div *ngIf="activityForm.controls.endTime.errors['startTimeUndefined']">startTimeUndefined</div>
-                                    <div *ngIf="activityForm.controls.endTime.errors['endTimeIsLess']">endTimeIsLess</div>
-                                    <div *ngIf="activityForm.controls.endTime.errors['endTimeUndefined']">endTimeUndefined</div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-4">
+                                    <button type="button" class="btn btn-primary" (click)="addTimeGroupClick()">
+                                        Add Log
+                                    </button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -134,7 +102,7 @@
                         <button type="submit" class="btn btn-success" data-dismiss="modal"
                                 (click)="submitCreateActivityForm();">Submit
                         </button>
-<!--                        [disabled]="!activityForm.valid"-->
+                        <!--                        [disabled]="!activityForm.valid"-->
 
                     </div>
                 </div>

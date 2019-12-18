@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup, Validators, FormArray, FormBuilder} from '@angular/forms';
+import {FormControl, FormGroup, Validators, FormArray, FormBuilder, AbstractControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {ActivityService} from "../../../services/activity.service";
 import {ProjectService} from "../../../services/project.service";
@@ -9,6 +9,7 @@ import {Activity, ActivityInterface} from "../../../models/activity";
 import {NgbModal, NgbModalConfig, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {start} from "repl";
 import {Time} from "@angular/common";
+import {validateEndTime, validateStartTime} from "../validators/time.validators";
 // import * as moment from 'moment';
 // import {Input, DoCheck, KeyValueDiffers} from '@angular/core';
 // import {control} from "leaflet";
@@ -64,55 +65,74 @@ export class ModalAddActivityComponent implements OnInit {
             this.userId = r.id;
         });
         this.getProjects();
+        this.activityForm = this.fb.group({
+            projectName: [''],
+            date: [new Date()],
+            description: [''],
+            time: this.fb.array([
+                this.addTimeFormGroup()
+            ])
+        });
 
-        this.activityForm = new FormGroup({
-            projectName: new FormControl(),
-            date: new FormControl(new Date()),
-            // hours: new FormControl(),
-            description: new FormControl(),
-            startTime: new FormControl('', (control: FormControl) => {
-                try {
-                    const endTime = this.activityForm.value.endTime;
-                    if (!endTime)
-                        return {endTimeUndefined: true}
-                }
-                catch (e) {
-                    return {endTimeUndefined: true}
-                }
+        //     this.activityForm = new FormGroup({
+        //         projectName: new FormControl(),
+        //         date: new FormControl(new Date()),
+        //         // hours: new FormControl(),
+        //         description: new FormControl(),
+        //         startTime: new FormControl('', (control: FormControl) => {
+        //             try {
+        //                 const endTime = this.activityForm.value.endTime;
+        //                 if (!endTime)
+        //                     return {endTimeUndefined: true}
+        //             }
+        //             catch (e) {
+        //                 return {endTimeUndefined: true}
+        //             }
+        //
+        //             try {
+        //                 if (control.value.hour <= this.activityForm.value.endTime.hour)
+        //                     return {ok: true}
+        //             }
+        //             catch (e) {
+        //                 return
+        //             }
+        //             return {endTimeUndefined: true}
+        //         }),
+        //         endTime: new FormControl('', (control: FormControl) => {
+        //             try {
+        //                 const startTime = this.activityForm.value.time.startTime;
+        //                 if (!startTime){
+        //                     return {startTimeUndefined: true}
+        //                 }
+        //             }
+        //             catch (e) {
+        //                 return {startTimeUndefined: true}
+        //             }
+        //
+        //             try {
+        //                 if (control.value.hour >= this.activityForm.value.time.startTime.hour){
+        //                     return {ok: true};
+        //                 }
+        //                 else {
+        //                     return {endTimeIsLess: true}
+        //                 }
+        //             }
+        //             catch (e) {
+        //                 return {endTimeUndefined: true}
+        //             }
+        //         }),
+        //     }, {updateOn: 'change'});
+    }
 
-                try {
-                    if (control.value.hour <= this.activityForm.value.endTime.hour)
-                        return {ok: true}
-                }
-                catch (e) {
-                    return
-                }
-                return {endTimeUndefined: true}
-            }),
-            endTime: new FormControl('', (control: FormControl) => {
-                try {
-                    const startTime = this.activityForm.value.startTime;
-                    if (!startTime){
-                        return {startTimeUndefined: true}
-                    }
-                }
-                catch (e) {
-                    return {startTimeUndefined: true}
-                }
+    addTimeGroupClick() {
+        (<FormArray>this.activityForm.get('time')).push(this.addTimeFormGroup());
+    }
 
-                try {
-                    if (control.value.hour >= this.activityForm.value.startTime.hour){
-                        return {ok: true};
-                    }
-                    else {
-                        return {endTimeIsLess: true}
-                    }
-                }
-                catch (e) {
-                    return {endTimeUndefined: true}
-                }
-            }),
-        }, {updateOn: 'change'});
+    addTimeFormGroup() : FormGroup {
+        return this.fb.group({
+            startTime: ['', [(c) => validateStartTime(c, this.activityForm)]],
+            endTime: ['',[(c) =>validateEndTime(c, this.activityForm)]]
+        });
     }
 
     events: string[] = [];
@@ -121,13 +141,13 @@ export class ModalAddActivityComponent implements OnInit {
     submitCreateActivityForm(): void {
         const val = this.activityForm.value;
         const startTime = new Date(val.date.toUTCString());
-        startTime.setHours(+val.startTime.hour);
-        startTime.setMinutes(+val.startTime.minute);
-        startTime.setSeconds(+val.startTime.second);
+        startTime.setHours(+val.time.startTime.hour);
+        startTime.setMinutes(+val.time.startTime.minute);
+        startTime.setSeconds(+val.time.startTime.second);
         const endTime = new Date(val.date.toUTCString());
-        endTime.setHours(+val.startTime.hour);
-        endTime.setMinutes(+val.startTime.minute);
-        endTime.setSeconds(+val.startTime.second);
+        endTime.setHours(+val.time.startTime.hour);
+        endTime.setMinutes(+val.time.startTime.minute);
+        endTime.setSeconds(+val.time.startTime.second);
         const projectData = val.projectName.split(',', 2);
         const hours = 3;
 
@@ -175,7 +195,7 @@ export class ModalAddActivityComponent implements OnInit {
     endTimeUpdate(time = 1) {
         try {
             const value = this.activityForm.value;
-            const start = value.startTime.hour * 60 + value.startTime.minute;
+            const start = value.time.startTime.hour * 60 + value.time.startTime.minute;
             const end = value.endTime.hour * 60 + value.endTime.minute;
             this.qtyOfHours = (end - start) / 60;
             if (end < start) {
