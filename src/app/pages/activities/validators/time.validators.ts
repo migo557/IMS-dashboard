@@ -2,7 +2,6 @@ import {AbstractControl} from "@angular/forms";
 
 export function validateStartTime(control: AbstractControl, activityForm) {
     try {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    console.log(activityForm);
         const endTime = activityForm.value.endTime;
         if (!endTime)
             return {endTimeUndefined: true}

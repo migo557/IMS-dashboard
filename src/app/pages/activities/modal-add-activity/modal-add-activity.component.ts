@@ -5,11 +5,13 @@ import {ActivityService} from "../../../services/activity.service";
 import {ProjectService} from "../../../services/project.service";
 import {AuthService} from "../../../services/auth.service";
 import {Project} from "../../../models/project";
+// import {Time} from "../../../models/Time";
 import {Activity, ActivityInterface} from "../../../models/activity";
 import {NgbModal, NgbModalConfig, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {start} from "repl";
 import {Time} from "@angular/common";
 import {validateEndTime, validateStartTime} from "../validators/time.validators";
+import {NgbTime} from "@ng-bootstrap/ng-bootstrap/timepicker/ngb-time";
 // import * as moment from 'moment';
 // import {Input, DoCheck, KeyValueDiffers} from '@angular/core';
 // import {control} from "leaflet";
@@ -74,70 +76,46 @@ export class ModalAddActivityComponent implements OnInit {
             ])
         });
 
-        //     this.activityForm = new FormGroup({
-        //         projectName: new FormControl(),
-        //         date: new FormControl(new Date()),
-        //         // hours: new FormControl(),
-        //         description: new FormControl(),
-        //         startTime: new FormControl('', (control: FormControl) => {
-        //             try {
-        //                 const endTime = this.activityForm.value.endTime;
-        //                 if (!endTime)
-        //                     return {endTimeUndefined: true}
-        //             }
-        //             catch (e) {
-        //                 return {endTimeUndefined: true}
-        //             }
-        //
-        //             try {
-        //                 if (control.value.hour <= this.activityForm.value.endTime.hour)
-        //                     return {ok: true}
-        //             }
-        //             catch (e) {
-        //                 return
-        //             }
-        //             return {endTimeUndefined: true}
-        //         }),
-        //         endTime: new FormControl('', (control: FormControl) => {
-        //             try {
-        //                 const startTime = this.activityForm.value.time.startTime;
-        //                 if (!startTime){
-        //                     return {startTimeUndefined: true}
-        //                 }
-        //             }
-        //             catch (e) {
-        //                 return {startTimeUndefined: true}
-        //             }
-        //
-        //             try {
-        //                 if (control.value.hour >= this.activityForm.value.time.startTime.hour){
-        //                     return {ok: true};
-        //                 }
-        //                 else {
-        //                     return {endTimeIsLess: true}
-        //                 }
-        //             }
-        //             catch (e) {
-        //                 return {endTimeUndefined: true}
-        //             }
-        //         }),
-        //     }, {updateOn: 'change'});
+        this.activityForm.valueChanges.subscribe((data) => {
+            let difference = 0;
+            for (let time of (<FormArray>this.activityForm.get('time')).value) {
+                try {
+                    if (time.endTime.hour > time.startTime.hour) {
+                        difference += (time.endTime.hour - time.startTime.hour) * 60;
+                        const minutes = time.endTime.minute - time.startTime.minute;
+                        difference += minutes;
+                    } else if (time.endTime.hour == time.startTime.hour) {
+                        difference += time.endTime.minute - time.startTime.minute;
+                    } else {
+                        difference += time.endTime.minute - time.startTime.minute;
+                    }
+                } catch (e) {
+                    console.error("Not all parameters have been initialized yet: ", e);
+                }
+            }
+            this.qtyOfHours = difference;
+        })
     }
 
     addTimeGroupClick() {
         (<FormArray>this.activityForm.get('time')).push(this.addTimeFormGroup());
     }
 
-    addTimeFormGroup() : FormGroup {
+
+    addTimeFormGroup(): FormGroup {
         return this.fb.group({
-            startTime: ['', [(c) => validateStartTime(c, this.activityForm)]],
-            endTime: ['',[(c) =>validateEndTime(c, this.activityForm)]]
+            startTime: [null, [(c) => validateStartTime(c, this.activityForm)]],
+            endTime: [null, [(c) => validateEndTime(c, this.activityForm)]]
         });
+    }
+
+    deleteTimeButtonClick(timeGroupIndex: number) {
+        (<FormArray>this.activityForm.get('time')).removeAt(timeGroupIndex);
     }
 
     events: string[] = [];
 
-
+    //TODO change data access
     submitCreateActivityForm(): void {
         const val = this.activityForm.value;
         const startTime = new Date(val.date.toUTCString());
@@ -151,8 +129,6 @@ export class ModalAddActivityComponent implements OnInit {
         const projectData = val.projectName.split(',', 2);
         const hours = 3;
 
-        // TODO Remove UserID and fix
-        // TODO implement description
         const activity: Activity = new Activity(0, 1,
             this.userId, val.description, hours, startTime, endTime);
 
@@ -179,33 +155,14 @@ export class ModalAddActivityComponent implements OnInit {
             );
     }
 
-    onTimeChange(event: any) {
-        console.log();
-        try {
-            const start = 1
-        } catch (e) {
-            console.log("ERROR");
-            console.log(e);
-        }
-        // t = Time
-        // const start = new Time
+
+    startTimeUpdate($event, id) {
+        if ($event)
+            (<FormArray>this.activityForm.get('time')).at(id).patchValue($event);
     }
 
-
-    endTimeUpdate(time = 1) {
-        try {
-            const value = this.activityForm.value;
-            const start = value.time.startTime.hour * 60 + value.time.startTime.minute;
-            const end = value.endTime.hour * 60 + value.endTime.minute;
-            this.qtyOfHours = (end - start) / 60;
-            if (end < start) {
-                this.err = false;
-            } else this.err = true;
-        } catch (e) {
-            console.log("ERROR");
-            console.log(e);
-        }
-        // return time.hour * 60 + time.minute
+    endTimeUpdate($event, id) {
+        if ($event)
+            (<FormArray>this.activityForm.get('time')).at(id).patchValue($event);
     }
-
 }

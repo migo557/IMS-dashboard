@@ -11,7 +11,7 @@
             </nb-card-header>
 
             <nb-card-body>
-                <div class="row" align-items="center">
+                <div class="container" align-items="center">
 
                     <div class="panel-body" *ngIf="activityForm">
                         <form [formGroup]="activityForm">
@@ -30,7 +30,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <!--                                </div>-->
 
                             <div class="row" align-items="center">
                                 <div class="col-sm-3 offset-md-1 modal-text2">
@@ -55,44 +54,89 @@
                                     <nb-datepicker #formpicker></nb-datepicker>
                                 </div>
                             </div>
+                            <br>
 
-
-                            <!--Hours selector-->
+                            <!--Hours-->
                             <div class="row" align-items="center">
                                 <div class="col-sm-2 offset-md-1 modal-text2">
                                     <p>Hours:</p>
                                 </div>
                                 <div class="col-sm-4">
                                     {{qtyOfHours}}
-                                    <!--                                    {{err}}-->
                                 </div>
-                                <!--                                <div class="col-sm-4">-->
-                                <!--                                    <ngb-timepicker formControlName="hours"></ngb-timepicker>-->
-                                <!--                                </div>-->
                                 <hr>
                             </div>
 
-                            <!--Start time selector-->
+                            <!--Time selector-->
 
                             <br>
                             <hr>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-12">
+                                        <button type="button" class="btn btn-primary" (click)="addTimeGroupClick()">
+                                            Add Log
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-4">
-                                    <button type="button" class="btn btn-primary" (click)="addTimeGroupClick()">
-                                        Add Log
-                                    </button>
+
+                            <div>
+                                <div formArrayName="time"
+                                     *ngFor="let time of activityForm.get('time').controls; let i = index">
+                                    <div [formGroupName]="i">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <div class="row">
+                                                    <div *ngIf="activityForm.get('time').length>1">
+                                                        <button type="button" class="btn btn-danger"
+                                                                (click)="deleteTimeButtonClick(i)">
+                                                            <nb-icon icon="trash-outline"></nb-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <p>Worked</p>
+                                                </div>
+
+                                                <div class="row">
+                                                    <p>from:</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <ngb-timepicker formControlName="startTime"
+                                                                id="startTime"
+                                                                [ngModel]="i.startTime"
+                                                                (ngModelChange)="startTimeUpdate($event,i)">
+                                                </ngb-timepicker>
+                                            </div>
+
+                                            <div class="col-sm-1 modal-text2">
+                                                <p>to</p>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <ngb-timepicker formControlName="endTime"
+                                                                id="endTime"
+                                                                [ngModel]="i.endTime"
+                                                                (ngModelChange)="endTimeUpdate($event,i)">
+                                                </ngb-timepicker>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-
             </nb-card-body>
+
             <nb-card-footer>
                 <div class="row" align-items="center">
                     <div class="col-4 offset-1">
-
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal"
                                 (click)="closeModal()">Cancel
                         </button>
@@ -103,13 +147,10 @@
                                 (click)="submitCreateActivityForm();">Submit
                         </button>
                         <!--                        [disabled]="!activityForm.valid"-->
-
                     </div>
                 </div>
             </nb-card-footer>
 
-
         </nb-card>
     </div>
 </ng-template>
-<!--</div>-->

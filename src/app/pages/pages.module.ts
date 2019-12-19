@@ -1,5 +1,12 @@
 import {NgModule} from '@angular/core';
-import {NbCalendarModule, NbCardModule, NbDatepickerModule, NbInputModule, NbMenuModule} from '@nebular/theme';
+import {
+    NbCalendarModule,
+    NbCardModule,
+    NbDatepickerModule,
+    NbIconModule,
+    NbInputModule,
+    NbMenuModule
+} from '@nebular/theme';
 
 import {ThemeModule} from '../@theme/theme.module';
 import {PagesComponent} from './pages.component';
@@ -16,7 +23,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatSnackBarModule, MatSnackBar} from "@angular/material/snack-bar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgbModal, NgbModalConfig, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalConfig, NgbModule, NgbTimepicker} from "@ng-bootstrap/ng-bootstrap";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {Ng2SmartTableModule} from "ng2-smart-table";
@@ -59,8 +66,8 @@ import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } fr
         NbInputModule,
         FormsModule,
         AngularMultiSelectModule,
-        TagInputModule
-
+        TagInputModule,
+        NbIconModule,
     ],
     declarations: [
         PagesComponent,
@@ -83,6 +90,7 @@ import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } fr
         NgxSmartModalService,
         NgbModal,
         NgbModalConfig,
+        NgbTimepicker,
     ],
     entryComponents: [
         MembersChipsComponent,
