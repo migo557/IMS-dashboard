@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import {ProjectsComponent} from "./projects/projects.component";
+import {ActivitiesComponent} from "./activities/activities.component";
 
 const routes: Routes = [{
   path: '',
@@ -18,6 +19,10 @@ const routes: Routes = [{
     {
       path: 'projects',
       component: ProjectsComponent,
+    },
+    {
+      path: 'activities',
+      component: ActivitiesComponent,
     },
     // unused routs will be removed later
     //todo: remove unused routs

@@ -1,3 +1,3 @@
 export class BaseHttpService {
-  protected baseUrl = "http://localhost:5010";
+    protected baseUrl = "http://localhost:5010";
 }
