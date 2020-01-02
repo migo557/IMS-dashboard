@@ -6,9 +6,14 @@
             <form [formGroup]="createProjectForm">
                 <label>
                     Project Title:
-                    <input type="text" on-change="SendTitle()" formControlName="title"
+                    <input type="text" on-change="setTitle()" formControlName="title"
                            id="title">
                 </label>
+
+                <div class="picker" formControlName='color'>
+                    <color-picker-component (event)='setColor($event)'></color-picker-component>
+                </div>
+
             </form>
 
         </ng-template>

@@ -10,5 +10,4 @@ export class User {
   public constructor(id: number) {
     this.id = id;
   }
-
 }

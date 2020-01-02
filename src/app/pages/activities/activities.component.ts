@@ -107,37 +107,42 @@ export class ActivitiesComponent implements OnInit {
                 type: 'string',
                 filter: false,
             },
-            hours: {
-                title: 'hours',
-                type: 'number',
+            date: {
+                title: 'date',
+                type: 'string',
                 filter: false,
             },
-            timeStart: {
-                title: 'Start Time',
-                type: 'custom',
-                renderComponent: SmartTableDatepickerRenderComponent,
-                width: '250px',
+            logs: {
+                title: 'logs',
+                type: 'string',
                 filter: false,
-                sortDirection: 'desc',
-                editor: {
-                    type: 'custom',
-                    component: SmartTableDatepickerComponent,
-                }
             },
-            timeEnd: {
-                title: 'End Time',
-                type: 'custom',
-                renderComponent: SmartTableDatepickerRenderComponent,
-                width: '250px',
-                filter: false,
-                editor: {
-                    type: 'custom',
-                    component: SmartTableDatepickerComponent,
-                    config: {
-                        placeholder: 'End Time'
-                    }
-                }
-            }
+            // timeStart: {
+            //     title: 'Start Time',
+            //     type: 'custom',
+            //     renderComponent: SmartTableDatepickerRenderComponent,
+            //     width: '250px',
+            //     filter: false,
+            //     sortDirection: 'desc',
+            //     editor: {
+            //         type: 'custom',
+            //         component: SmartTableDatepickerComponent,
+            //     }
+            // },
+            // timeEnd: {
+            //     title: 'End Time',
+            //     type: 'custom',
+            //     renderComponent: SmartTableDatepickerRenderComponent,
+            //     width: '250px',
+            //     filter: false,
+            //     editor: {
+            //         type: 'custom',
+            //         component: SmartTableDatepickerComponent,
+            //         config: {
+            //             placeholder: 'End Time'
+            //         }
+            //     }
+            // }
             // timeStart: {
             //     title: 'Start Time',
             //     filter: {
@@ -232,6 +237,6 @@ export class ActivitiesComponent implements OnInit {
         } else {
             event.confirm.reject();
         }
-        return new Activity( event.data.title, null, 2, event.data.description, null, null, null);
+        return new Activity( event.data.title, null, 2, event.data.description, null, null);
     }
 }

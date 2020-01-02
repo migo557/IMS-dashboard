@@ -24,7 +24,7 @@
                                     <select formControlName="projectName" id="projectNamesSelect"
                                             class="description project-select">
                                         <option class="description" *ngFor="let project of projectList"
-                                                [value]="[project.id, project.title]">
+                                                [value]="[project.title]">
                                             {{project.title}}
                                         </option>
                                     </select>

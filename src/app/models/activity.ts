@@ -4,9 +4,8 @@ export interface ActivityInterface {
     // projectTitle: string;
     userId: number;
     description: string;
-    hours: number;
-    timeStart: Date;
-    timeEnd: Date;
+    logs: string;
+    date: Date;
 }
 
 export class Activity implements ActivityInterface {
@@ -15,20 +14,17 @@ export class Activity implements ActivityInterface {
     //projectTitle: string;
     userId: number;
     description: string;
-    hours: number;
-    timeStart: Date;
-    timeEnd: Date;
+    logs: string;
+    date: Date;
 
     constructor(id: number, projectId: number, userId: number,
-                description: string = null, hours: number,
-                startTime: Date, endTime: Date) {
+                description: string = null, date=null, logs=null) {
         this.id = id;
         this.projectId = projectId;
         // this.projectTitle = projectTitle;
         this.userId = userId;
         this.description = description;
-        this.hours = hours;
-        this.timeStart = startTime;
-        this.timeEnd = endTime;
+        this.date = date;
+        this.logs = logs;
     }
 }

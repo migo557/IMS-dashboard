@@ -39,6 +39,9 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import { MembersChipsComponent } from './projects/members-chips/members-chips.component';
 import {TagInputModule} from "ngx-chips";
 import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } from './activities/addons/smart-table-datepicker/smart-table-datepicker.component';
+import { ColorRenderComponent } from './projects/color-render/color-render.component';
+import { ColorEditorRenderComponent } from './projects/color-editor-render/color-editor-render.component';
+import {ProjectsModule} from "./projects/projects.module";
 
 
 @NgModule({
@@ -68,6 +71,7 @@ import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } fr
         AngularMultiSelectModule,
         TagInputModule,
         NbIconModule,
+        ProjectsModule
     ],
     declarations: [
         PagesComponent,
@@ -81,6 +85,7 @@ import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } fr
         MembersChipsComponent,
         SmartTableDatepickerComponent,
         SmartTableDatepickerRenderComponent,
+
     ],
     providers: [
         AuthService,
@@ -93,7 +98,6 @@ import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } fr
         NgbTimepicker,
     ],
     entryComponents: [
-        MembersChipsComponent,
         SmartTableDatepickerComponent,
         SmartTableDatepickerRenderComponent,
         // ModalAddActivityComponent,

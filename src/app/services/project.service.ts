@@ -3,7 +3,7 @@ import {Project, ProjectInterface} from "../models/project";
 import {CommonHttpService} from "./common-http.service";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {User} from "../models/user";
-import {catchError} from "rxjs/operators";
+import {catchError, first} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
@@ -19,9 +19,11 @@ export class ProjectService {
     constructor(
         private commonHttp: CommonHttpService,
         private snackBar: MatSnackBar,
-    ) { }
+    ) {
+    }
 
     createProject(project: Project) {
+        console.log(project);
         return this.commonHttp.post<ProjectInterface>('project/create', project);
     }
 
@@ -42,6 +44,24 @@ export class ProjectService {
 
     public announceProjectData(data) {
         this.projectSource.next(data);
+    }
+
+    updateProject(project: Project) {
+        return this.commonHttp.post('project/update', project)
+            // return this.commonHttp.post('api/timelog/update', activity)
+            .pipe(
+                first(),
+                catchError((err) => {
+                    console.log("ERROR in Editing Project:", err);
+                    this.snackBar.open("An error occured while trying to update your project",
+                        'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    return of(null);
+                })
+            );
     }
 }
 

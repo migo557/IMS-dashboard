@@ -9,12 +9,6 @@ import {ActivityDateRangeFilter} from "../models/activity-date-range-filter";
 
 @Injectable()
 export class ActivityService {
-    //todo: remove after approve
-    // private activityList: BehaviorSubject<Activity[]> = new BehaviorSubject<Activity[]>(null);
-    // public activities$: Observable<Activity[]> = this.activityList.asObservable();
-    // public announceActivityList = (list: Activity[]) => {
-    //     this.activityList.next(list);
-    // };
 
     private projectIdsFilter: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
     public projectIdsFilter$: Observable<number[]> = this.projectIdsFilter.asObservable();
@@ -64,7 +58,20 @@ export class ActivityService {
 
 
     createActivity(activity: Activity) {
-        return this.commonHttp.post<Activity>('timelog/create/', activity);
+        console.log(activity)
+        return this.commonHttp.post<Activity>('timelog/create/', activity)
+            .pipe(
+                catchError((err) => {
+                    console.log("ERROR in createActivity:", err);
+                    this.snackBar.open("An error occured while trying to create a activity",
+                        'OK', {
+                            duration: 5000,
+                            horizontalPosition: "center",
+                            verticalPosition: "top"
+                        });
+                    return of(null);
+                })
+            )
     }
 
     removeActivity(activityId: number) {

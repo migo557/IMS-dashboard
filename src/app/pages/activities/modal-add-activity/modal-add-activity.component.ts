@@ -118,29 +118,29 @@ export class ModalAddActivityComponent implements OnInit {
     //TODO change data access
     submitCreateActivityForm(): void {
         const val = this.activityForm.value;
-        const startTime = new Date(val.date.toUTCString());
-        startTime.setHours(+val.time.startTime.hour);
-        startTime.setMinutes(+val.time.startTime.minute);
-        startTime.setSeconds(+val.time.startTime.second);
-        const endTime = new Date(val.date.toUTCString());
-        endTime.setHours(+val.time.startTime.hour);
-        endTime.setMinutes(+val.time.startTime.minute);
-        endTime.setSeconds(+val.time.startTime.second);
+        const date = new Date(val.date.toUTCString());
         const projectData = val.projectName.split(',', 2);
-        const hours = 3;
+
+        for (let i=0; i < val.time.length; ++i) {
+            delete val.time[i].startTime.second;
+            delete val.time[i].endTime.second;
+        }
+
+        const timeLogs = JSON.stringify(val.time);
+
 
         const activity: Activity = new Activity(0, 1,
-            this.userId, val.description, hours, startTime, endTime);
+            this.userId, val.description, date, timeLogs);
 
         this.activityService.createActivity(activity).subscribe(
             result => {
                 const activity = new Activity(0, result.projectId, result.userId,
-                    result.description, result.hours, result.timeStart, result.timeEnd);
+                    result.description, result.date, result.timeLogs);
 
                 this.newActivity.emit(activity);
             }
         );
-        this.closeModal(activity);
+        this.closeModal(val.projectName);
     }
 
     getProjects() {

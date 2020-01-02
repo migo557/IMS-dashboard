@@ -6,6 +6,8 @@ import {ProjectService} from "../../services/project.service";
 import {AuthService} from "../../services/auth.service";
 import {LocalDataSource} from "ng2-smart-table";
 import {MembersChipsComponent} from "./members-chips/members-chips.component";
+import {ColorRenderComponent} from "./color-render/color-render.component";
+import {ColorEditorRenderComponent} from "./color-editor-render/color-editor-render.component";
 
 @Component({
     selector: 'ngx-app-projects',
@@ -69,6 +71,10 @@ export class ProjectsComponent implements OnInit {
             position: 'right',
         },
 
+        pager: {
+            display: true,
+        },
+
         add: {
             addButtonContent: '<i class="nb-plus"></i>',
             createButtonContent: '<i class="nb-checkmark"></i>',
@@ -78,6 +84,7 @@ export class ProjectsComponent implements OnInit {
             editButtonContent: '<i class="nb-edit"></i>',
             saveButtonContent: '<i class="nb-checkmark"></i>',
             cancelButtonContent: '<i class="nb-close"></i>',
+            confirmSave:true,
         },
         delete: {
             deleteButtonContent: '<i class="nb-trash"></i>',
@@ -94,9 +101,48 @@ export class ProjectsComponent implements OnInit {
                 type: 'custom',
                 renderComponent: MembersChipsComponent,
 
-            }
+            },
+            color:  {
+                title: 'Color',
+                type: 'custom',
+                renderComponent: ColorRenderComponent,
+
+                editor: {
+                    type: 'custom',
+                    component: ColorEditorRenderComponent,
+                },
+            },
         },
     };
+
+    onEditConfirm(event): void {
+        console.log("EDIT: ", event);
+        if (window.confirm('Are you sure you want to save?')) {
+            this.projectService.updateProject(event.newData)
+                .subscribe(r => {
+                    if (r) {
+                        event.confirm.resolve(event.newData);
+                        this.snackBar.open(`Project with id"${event.data.id}" was successfully updated.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                    else {
+                        event.resolve(event.Data);
+                        this.snackBar.open(`Project with id"${event.data.id}" was not updated.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                });
+        } else {
+            event.confirm.reject();
+        }
+    }
 
     onDeleteConfirm(event): void {
         if (window.confirm('Are you sure you want to delete?')) {

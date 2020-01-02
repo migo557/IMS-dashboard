@@ -2,31 +2,33 @@ import {Component, OnInit, ElementRef, ViewChild, AfterViewInit, Output, EventEm
 import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
 
 @Component({
-  selector: 'form-add-project',
-  templateUrl: './form-add-project.component.html',
-  styleUrls: ['./form-add-project.component.scss']
+    selector: 'form-add-project',
+    templateUrl: './form-add-project.component.html',
+    styleUrls: ['./form-add-project.component.scss']
 })
 export class FormAddProjectComponent implements OnInit {
-  title : string = "hello";
+    createProjectForm: FormGroup;
 
-  createProjectForm : FormGroup;
+    @Output() projectEvent = new EventEmitter<string[]>();
 
-  @Output() titleEvent  = new EventEmitter<string>();
+    constructor(private formBuilder: FormBuilder) {
+    }
 
-  SendTitle() {
-    this.titleEvent.emit(this.createProjectForm.value.title);
-    this.title = this.createProjectForm.value.title;
-  }
+    ngOnInit() {
+        this.createProjectForm = this.formBuilder.group({
+            title: ['Project title'],
+            color: ['color']
+        })
+    }
 
-  constructor(private formBuilder: FormBuilder) { }
+    public setColor(color: string) {
+        this.createProjectForm.value['color'] = color;
+        this.projectEvent.emit(['color', color])
+    }
 
-  ngOnInit() {
-    this.createProjectForm = this.formBuilder.group({
-      title: ['Project title'],
-    })
-  }
+    setTitle() {
+        this.projectEvent.emit(['title', this.createProjectForm.value.title]);
+    }
 
-  get projectTitle() {
-    return this.createProjectForm;
-  }
+
 }
