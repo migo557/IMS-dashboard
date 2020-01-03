@@ -1,18 +1,20 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DefaultEditor} from "ng2-smart-table";
+import {ColorPickerComponent} from "@syncfusion/ej2-angular-inputs";
 
 @Component({
-  selector: 'ngx-color-editor-render',
-  templateUrl: './color-editor-render.component.html',
-  styleUrls: ['./color-editor-render.component.scss']
+    selector: 'ngx-color-editor-render',
+    templateUrl: './color-editor-render.component.html',
+    styleUrls: ['./color-editor-render.component.scss']
 })
 
 
 export class ColorEditorRenderComponent extends DefaultEditor implements AfterViewInit {
 
-    @ViewChild('name', { static: false }) name: ElementRef;
-    @ViewChild('url', { static: false }) url: ElementRef;
-    @ViewChild('htmlValue', { static: false }) htmlValue: ElementRef;
+    colorValue: string;
+
+    @ViewChild('colorpicker', {static: false})
+    public colorPicker: ColorPickerComponent;
 
     constructor() {
         super();
@@ -20,22 +22,19 @@ export class ColorEditorRenderComponent extends DefaultEditor implements AfterVi
 
     ngAfterViewInit() {
         if (this.cell.newValue !== '') {
-            this.name.nativeElement.value = this.getUrlName();
-            this.url.nativeElement.value = this.getUrlHref();
+            if (typeof this.cell.getValue() == 'string') {
+                this.colorValue = this.cell.getValue();
+            }
+            else if (this.cell.getValue().hasOwnProperty('currentValue')) {
+                this.colorValue = this.cell.getValue()['currentValue']['hex'];
+            }
+            else
+                this.colorValue = '#ffffff'
         }
     }
 
-    updateValue() {
-        const href = this.url.nativeElement.value;
-        const name = this.name.nativeElement.value;
-        this.cell.newValue = `<a href='${href}'>${name}</a>`;
+    colorChanged($event) {
+        this.cell.newValue = $event;
     }
 
-    getUrlName(): string {
-        return this.htmlValue.nativeElement.innerText;
-    }
-
-    getUrlHref(): string {
-        return this.htmlValue.nativeElement.querySelector('a').getAttribute('href');
-    }
 }

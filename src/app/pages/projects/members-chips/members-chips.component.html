@@ -14,6 +14,7 @@
                             [focusFirstElement]="true"
                             [displayBy]="'value'"
                             [identifyBy]="'id'"
+                            aria-label="Add a new member"
                             [autocompleteItems]="autocompleteItemsAsObjects">
             <ng-template let-item="item" let-index="index">
                 ({{ index }}) {{ item.id }}: {{ item.value }}

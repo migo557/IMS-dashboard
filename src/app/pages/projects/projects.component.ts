@@ -79,6 +79,7 @@ export class ProjectsComponent implements OnInit {
             addButtonContent: '<i class="nb-plus"></i>',
             createButtonContent: '<i class="nb-checkmark"></i>',
             cancelButtonContent: '<i class="nb-close"></i>',
+            confirmCreate: true
         },
         edit: {
             editButtonContent: '<i class="nb-edit"></i>',
@@ -118,7 +119,8 @@ export class ProjectsComponent implements OnInit {
     onEditConfirm(event): void {
         console.log("EDIT: ", event);
         if (window.confirm('Are you sure you want to save?')) {
-            this.projectService.updateProject(event.newData)
+            const project = new Project(event.data.id, event.newData.title, event.newData.color.value);
+            this.projectService.updateProject(project)
                 .subscribe(r => {
                     if (r) {
                         event.confirm.resolve(event.newData);
@@ -153,12 +155,32 @@ export class ProjectsComponent implements OnInit {
     }
 
 // the function below is created for ngx + button
-    onCreateConfirm(event): Project {
-        if (window.confirm('Are you sure you want to create a project?')) {
-            event.confirm.resolve();
+    onCreateConfirm(event) {
+        if (window.confirm('Are you sure you want to create a new project?')) {
+            const data = event.newData;
+            const project = new Project(null, data.title, data.color['currentValue']['hex']);
+            this.projectService.createProject(project)
+                .subscribe(r => {
+                    if (r) {
+                        event.confirm.resolve(event.newData);
+                        this.snackBar.open(`Project "${event.data.title}" was successfully created.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    } else {
+                        event.resolve(event.Data);
+                        this.snackBar.open(`ERROR! Project "${event.data.title}" was not created.`,
+                            'OK', {
+                                duration: 5000,
+                                horizontalPosition: "center",
+                                verticalPosition: "top"
+                            });
+                    }
+                });
         } else {
             event.confirm.reject();
         }
-        return new Project(event.data.id, event.data.title);
     }
 }

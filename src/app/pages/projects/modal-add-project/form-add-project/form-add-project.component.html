@@ -9,6 +9,7 @@
                     <input type="text" on-change="setTitle()" formControlName="title"
                            id="title">
                 </label>
+                <input ejs-colorpicker id='color-picker' #colorpicker type='color'/>
 
                 <div class="picker" formControlName='color'>
                     <color-picker-component (event)='setColor($event)'></color-picker-component>
