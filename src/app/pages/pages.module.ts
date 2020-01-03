@@ -36,12 +36,15 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ModalActivitiesFilterComponent} from './activities/modal-activities-filter/modal-activities-filter.component';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
-import { MembersChipsComponent } from './projects/members-chips/members-chips.component';
 import {TagInputModule} from "ngx-chips";
-import { SmartTableDatepickerComponent, SmartTableDatepickerRenderComponent } from './activities/addons/smart-table-datepicker/smart-table-datepicker.component';
-import { ColorRenderComponent } from './projects/color-render/color-render.component';
-import { ColorEditorRenderComponent } from './projects/color-editor-render/color-editor-render.component';
+import {
+    SmartTableDatepickerComponent,
+    SmartTableDatepickerRenderComponent
+} from './activities/addons/smart-table-datepicker/smart-table-datepicker.component';
+import {ColorRenderComponent} from './projects/color-render/color-render.component';
+import {ColorEditorRenderComponent} from './projects/color-editor-render/color-editor-render.component';
 import {ProjectsModule} from "./projects/projects.module";
+import {ActivitiesModule} from "./activities/activities.module";
 
 
 @NgModule({
@@ -63,43 +66,26 @@ import {ProjectsModule} from "./projects/projects.module";
         NgxSmartModalModule.forRoot(),
         MatFormFieldModule,
         MatInputModule,
-        NbCalendarModule,
-        NbDatepickerModule,
         NbCardModule,
         NbInputModule,
         FormsModule,
-        AngularMultiSelectModule,
         TagInputModule,
         NbIconModule,
-        ProjectsModule
+        ProjectsModule,
+        ActivitiesModule
     ],
     declarations: [
         PagesComponent,
-        ProjectsComponent,
-        ModalAddProjectComponent,
-        FormAddProjectComponent,
-        ActivitiesComponent,
-        ModalAddActivityComponent,
-        ModalSelectProjectComponent,
-        ModalActivitiesFilterComponent,
-        MembersChipsComponent,
-        SmartTableDatepickerComponent,
-        SmartTableDatepickerRenderComponent,
-
     ],
     providers: [
         AuthService,
         ProjectService,
-        ActivityService,
         MatSnackBar,
         NgxSmartModalService,
         NgbModal,
         NgbModalConfig,
-        NgbTimepicker,
     ],
     entryComponents: [
-        SmartTableDatepickerComponent,
-        SmartTableDatepickerRenderComponent,
         // ModalAddActivityComponent,
         // ActivitiesComponent,
     ]

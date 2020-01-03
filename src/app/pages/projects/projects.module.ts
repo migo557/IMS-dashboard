@@ -9,17 +9,34 @@ import {AuthService} from "../../services/auth.service";
 import {ProjectService} from "../../services/project.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NgxSmartModalService} from "ngx-smart-modal";
-import {NgbModal, NgbModalConfig, NgbTimepicker} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbModalConfig, NgbTabsetModule, NgbTimepicker} from "@ng-bootstrap/ng-bootstrap";
+import {ProjectsComponent} from "./projects.component";
+import {ModalAddProjectComponent} from "./modal-add-project/modal-add-project.component";
+import {FormAddProjectComponent} from "./modal-add-project/form-add-project/form-add-project.component";
+import {TagInputModule} from "ngx-chips";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Ng2SmartTableModule} from "ng2-smart-table";
+import {NbCardModule} from "@nebular/theme";
 
 @NgModule({
+    imports: [
+        CommonModule,
+        ColorPickerModule,
+        TagInputModule,
+        FormsModule,
+        Ng2SmartTableModule,
+        NbCardModule,
+        NgbTabsetModule,
+        ReactiveFormsModule
+    ],
     declarations: [
         ColorPickerComponent,
         ColorRenderComponent,
         ColorEditorRenderComponent,
-    ],
-    imports: [
-        CommonModule,
-        ColorPickerModule
+        MembersChipsComponent,
+        ProjectsComponent,
+        ModalAddProjectComponent,
+        FormAddProjectComponent,
     ],
     providers: [
         AuthService,
