@@ -92,7 +92,7 @@ export class ActivityService {
     }
 
     updateActivity(activity) {
-        return this.commonHttp.post('timelog/update', activity)
+        return this.commonHttp.post('timelog/update/', activity)
         // return this.commonHttp.post('api/timelog/update', activity)
             .pipe(
                 first(),

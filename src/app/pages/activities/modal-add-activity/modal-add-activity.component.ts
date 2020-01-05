@@ -12,6 +12,9 @@ import {start} from "repl";
 import {Time} from "@angular/common";
 import {validateEndTime, validateStartTime} from "../validators/time.validators";
 import {NgbTime} from "@ng-bootstrap/ng-bootstrap/timepicker/ngb-time";
+import {logger} from "codelyzer/util/logger";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 // import * as moment from 'moment';
 // import {Input, DoCheck, KeyValueDiffers} from '@angular/core';
 // import {control} from "leaflet";
@@ -32,6 +35,7 @@ export class ModalAddActivityComponent implements OnInit {
     protected activityForm: FormGroup;
     qtyOfHours: any;
     err: boolean;
+    activityId: number;
 
     dialogRef: NgbModalRef;
 
@@ -54,8 +58,30 @@ export class ModalAddActivityComponent implements OnInit {
         config.keyboard = false;
     }
 
-    open() {
+    open(data = null) {
         this.dialogRef = this.modalService.open(this.modalAddActivity);
+        if (data) {
+            this.activityId = data.id;
+            const projectName = data.projectId.toString().concat(',', data.projectTitle);
+            this.activityForm.patchValue({
+                projectName: [projectName],
+                description: data.description,
+                date: new Date(data.date),
+            });
+
+            const logs = JSON.parse(data.logs);
+            let id  = 0;
+            for (let log of logs) {
+                (<FormArray>this.activityForm.get('time')).at(id).patchValue(log);
+                // let time = this.activityForm.get('time').value[this.activityForm.get('time').value.length-1];
+                // time = log.startTime;
+                // time.endTime = log.endTime;
+                if (log != logs[logs.length-1]){
+                    this.addTimeGroupClick();
+                    ++id;
+                }
+            }
+        }
     }
 
     closeModal(data = null) {
@@ -118,29 +144,49 @@ export class ModalAddActivityComponent implements OnInit {
     //TODO change data access
     submitCreateActivityForm(): void {
         const val = this.activityForm.value;
-        const date = new Date(val.date.toUTCString());
-        const projectData = val.projectName.split(',', 2);
-
-        for (let i=0; i < val.time.length; ++i) {
+        //.setHours(0,0,0,0).toISOString();
+        const projectData = val.projectName[0].split(',', 2);
+        let date2 = new Date((new Date(val.date)).setHours(0,0,0,0));
+        date2.toUTCString();
+        let offset = (new Date).getTimezoneOffset()/60;
+        if (offset < 0)
+            offset=-offset;
+        let date = new Date(val.date.setUTCHours(offset,0,0,0));
+        date.toISOString();
+        for (let i = 0; i < val.time.length; ++i) {
             delete val.time[i].startTime.second;
             delete val.time[i].endTime.second;
         }
 
         const timeLogs = JSON.stringify(val.time);
 
+        if (!this.activityId) {
+            const activity: Activity = new Activity(0, projectData[0],
+                this.userId, val.description, date, timeLogs);
 
-        const activity: Activity = new Activity(0, 1,
-            this.userId, val.description, date, timeLogs);
+            this.activityService.createActivity(activity).subscribe(
+                result => {
+                    const activity = new Activity(0, result.projectId, result.userId,
+                        result.description, result.date, result.timeLogs, this.qtyOfHours);
 
-        this.activityService.createActivity(activity).subscribe(
-            result => {
-                const activity = new Activity(0, result.projectId, result.userId,
-                    result.description, result.date, result.timeLogs);
+                    this.newActivity.emit(activity);
+                }
+            );
+        } else {
+            const activity: Activity = new Activity(this.activityId, parseInt(projectData[0]),
+                this.userId, val.description, date, timeLogs, this.qtyOfHours);
 
-                this.newActivity.emit(activity);
-            }
-        );
+            this.activityService.updateActivity(activity).subscribe(
+                result => {
+                    const activity = new Activity(result.id, result.projectId, result.userId,
+                        result.description, result.date, result.timeLogs, result.duration);
+
+                    this.newActivity.emit(activity);
+                }
+            );
+        }
         this.closeModal(val.projectName);
+
     }
 
     getProjects() {

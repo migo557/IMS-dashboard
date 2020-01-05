@@ -63,6 +63,7 @@ export class ActivitiesComponent implements OnInit {
 
 
     settings = {
+        mode: 'external',
         actions: {
             add: false,
             edit: true,
@@ -112,59 +113,16 @@ export class ActivitiesComponent implements OnInit {
                 type: 'string',
                 filter: false,
             },
+            duration: {
+                title: 'duration',
+                type: 'number',
+                filter: false,
+            },
             logs: {
                 title: 'logs',
                 type: 'string',
                 filter: false,
             },
-            // timeStart: {
-            //     title: 'Start Time',
-            //     type: 'custom',
-            //     renderComponent: SmartTableDatepickerRenderComponent,
-            //     width: '250px',
-            //     filter: false,
-            //     sortDirection: 'desc',
-            //     editor: {
-            //         type: 'custom',
-            //         component: SmartTableDatepickerComponent,
-            //     }
-            // },
-            // timeEnd: {
-            //     title: 'End Time',
-            //     type: 'custom',
-            //     renderComponent: SmartTableDatepickerRenderComponent,
-            //     width: '250px',
-            //     filter: false,
-            //     editor: {
-            //         type: 'custom',
-            //         component: SmartTableDatepickerComponent,
-            //         config: {
-            //             placeholder: 'End Time'
-            //         }
-            //     }
-            // }
-            // timeStart: {
-            //     title: 'Start Time',
-            //     filter: {
-            //         type: 'daterange',
-            //         config: {
-            //             daterange: {
-            //                 format: 'HH:MM dd/mm/yyyy',
-            //             },
-            //         }
-            //     }
-            // },
-            // timeEnd: {
-            //     title: 'End Time',
-            //     filter: {
-            //         type: 'daterange',
-            //         config: {
-            //             daterange: {
-            //                 format: 'HH:MM dd/mm/yyyy',
-            //             },
-            //         }
-            //     }
-            // },
         },
     };
 
@@ -202,33 +160,48 @@ export class ActivitiesComponent implements OnInit {
         }
     }
 
-    onEditConfirm(event): void {
-        if (window.confirm('Are you sure you want to save?')) {
-            this.activityService.updateActivity(event.newData)
-                .subscribe(r => {
-                    if (r) {
-                        event.confirm.resolve(event.newData);
-                        this.snackBar.open(`Activity with id"${event.data.id}" was successfully updated.`,
-                            'OK', {
-                                duration: 5000,
-                                horizontalPosition: "center",
-                                verticalPosition: "top"
-                            });
-                    }
-                    else {
-                        event.resolve(event.Data);
-                        this.snackBar.open(`Activity with id"${event.data.id}" was not updated.`,
-                            'OK', {
-                                duration: 5000,
-                                horizontalPosition: "center",
-                                verticalPosition: "top"
-                            });
-                    }
+    onEdit($event) {
+        this.modalAddActivity.open($event.data);
+        this.modalAddActivity.dialogRef.result.then(result => {
+            if (result) {
+                this.snackBar.open(`Activity for project "${result.projectName}" updated.`, 'OK', {
+                    duration: 5000,
+                    horizontalPosition: "center",
+                    verticalPosition: "top"
                 });
-        } else {
-            event.confirm.reject();
-        }
+            }
+        });
+        console.log("modal edit $event");
+        console.log($event);
     }
+
+    // onEditConfirm(event): void {
+    //     if (window.confirm('Are you sure you want to save?')) {
+    //         this.activityService.updateActivity(event.newData)
+    //             .subscribe(r => {
+    //                 if (r) {
+    //                     event.confirm.resolve(event.newData);
+    //                     this.snackBar.open(`Activity with id"${event.data.id}" was successfully updated.`,
+    //                         'OK', {
+    //                             duration: 5000,
+    //                             horizontalPosition: "center",
+    //                             verticalPosition: "top"
+    //                         });
+    //                 }
+    //                 else {
+    //                     event.resolve(event.Data);
+    //                     this.snackBar.open(`Activity with id"${event.data.id}" was not updated.`,
+    //                         'OK', {
+    //                             duration: 5000,
+    //                             horizontalPosition: "center",
+    //                             verticalPosition: "top"
+    //                         });
+    //                 }
+    //             });
+    //     } else {
+    //         event.confirm.reject();
+    //     }
+    // }
 
     // the function below is created for ngx + button
     onCreateConfirm(event): Activity {

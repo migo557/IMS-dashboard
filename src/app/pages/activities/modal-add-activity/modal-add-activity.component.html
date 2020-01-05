@@ -7,7 +7,12 @@
             <!-- Modal Header -->
             <nb-card-header class="card-header">
                 <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
-                <h1 class="mat-display-1 header-text">Add Manual Time Entry</h1>
+                <div *ngIf="!activityId">
+                    <h1 class="mat-display-1 header-text">Add Manual Time Entry</h1>
+                </div>
+                <div *ngIf="activityId">
+                    <h1 class="mat-display-1 header-text">Update Time Entry</h1>
+                </div>
             </nb-card-header>
 
             <nb-card-body>
@@ -24,7 +29,7 @@
                                     <select formControlName="projectName" id="projectNamesSelect"
                                             class="description project-select">
                                         <option class="description" *ngFor="let project of projectList"
-                                                [value]="[project.title]">
+                                                [value]="[project.id, project.title]">
                                             {{project.title}}
                                         </option>
                                     </select>
@@ -143,9 +148,16 @@
                     </div>
 
                     <div class="col-4 offset-3">
-                        <button type="submit" class="btn btn-success" data-dismiss="modal"
-                                (click)="submitCreateActivityForm();">Submit
-                        </button>
+                        <div *ngIf="!activityId">
+                            <button type="submit" class="btn btn-success" data-dismiss="modal"
+                                    (click)="submitCreateActivityForm();">Submit
+                            </button>
+                        </div>
+                        <div *ngIf="activityId">
+                            <button type="submit" class="btn btn-success" data-dismiss="modal"
+                                    (click)="submitCreateActivityForm();">Update
+                            </button>
+                        </div>
                         <!--                        [disabled]="!activityForm.valid"-->
                     </div>
                 </div>
