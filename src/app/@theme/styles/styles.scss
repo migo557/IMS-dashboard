@@ -1,4 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+// timepicker
+::ng-deep {
+    @import '../../../../node_modules/@syncfusion/ej2-base/styles/material.css';
+    @import '../../../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+    @import '../../../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+    @import '../../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+    @import '../../../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+}
 
 // themes - our custom or/and out of the box themes
 @import 'themes';
@@ -31,3 +42,6 @@
 
   @include nb-overrides();
 };
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,21 @@
+::ng-deep th.mat-header-cell{
+  width: 140px;
+  min-width: 140px;
+}
+
+::ng-deep {
+    & .nb-edit,
+    & .nb-trash {
+        opacity: 0;
+        transition-duration: 0.5s;
+    }
+
+    & tr:hover {
+        & .nb-edit,
+        & .nb-trash {
+            opacity: 1;
+            transition-duration: 0.3s;
+        }
+    }
+}
+
