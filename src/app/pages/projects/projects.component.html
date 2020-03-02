@@ -1,19 +1,25 @@
-<div class="row">
-  <div>
-      <ng2-smart-table [settings]="settings"
-                       [source]="dataSource"
-                       (deleteConfirm)="onDeleteConfirm($event)"
-                       (createConfirm)="onCreateConfirm($event)"
-                       (editConfirm)="onDeleteConfirm($event)">
-      </ng2-smart-table>
-  </div>
+<nb-card>
+    <nb-card-header>
+        <div class="peer">
+            <button type="button" class="btn cur-p btn-primary"
+                    data-toggle="modal" data-target="#modal-add-project" (click)="open()">
+                Add Project
+            </button>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div>
+                <ng2-smart-table [settings]="settings"
+                                 [source]="dataSource"
+                                 (deleteConfirm)="onDeleteConfirm($event)"
+                                 (createConfirm)="onCreateConfirm($event)"
+                                 (editConfirm)="onEditConfirm($event)">
+                </ng2-smart-table>
+            </div>
 
-  <div class="peer">
-    <button type="button" class="btn cur-p btn-primary"
-            data-toggle="modal" data-target="#modal-add-project" (click)="open()">
-      Add Project
-    </button>
-  </div>
-</div>
+        </div>
+    </nb-card-body>
+</nb-card>
 
 <modal-add-project (newProject)="addNewProject($event)"></modal-add-project>

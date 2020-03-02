@@ -12,11 +12,11 @@ export class CommonHttpService extends BaseHttpService {
     }
 
     post<T>(url, obj) {
-        return this.http.post<T>(this.baseUrl + url, obj);
+        return this.http.post<T>(this.baseUrl + '/api/' + url, obj);
     }
 
 
     get<T>(url) {
-        return this.http.get<T>(this.baseUrl + url);
+        return this.http.get<T>(this.baseUrl + '/api/' + url);
     }
 }

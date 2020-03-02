@@ -6,7 +6,7 @@ import {CommonHttpService} from "./common-http.service";
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-    private userSource: BehaviorSubject<User> = new BehaviorSubject<User>(new User(1));
+    private userSource: BehaviorSubject<User> = new BehaviorSubject<User>(new User(6));
     public user$: Observable<User> = this.userSource.asObservable();
 
     constructor() {
